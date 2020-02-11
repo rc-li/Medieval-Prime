@@ -10,15 +10,23 @@ public class RayController : MonoBehaviour
 
 	private Rigidbody2D myRigidBody;
 
+	public bool grounded;
+	public LayerMask whatIsGround;
+
+	private Collider2D myCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
+		myCollider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+		grounded = Physics2D.IsTouchingLayers(myCollider, whatIsGround);
+
         myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
