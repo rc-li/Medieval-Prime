@@ -20,5 +20,9 @@ public class RayController : MonoBehaviour
     void Update()
     {
         myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
+
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
+			myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
+		}
     }
 }
