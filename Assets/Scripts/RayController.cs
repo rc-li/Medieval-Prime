@@ -15,6 +15,8 @@ public class RayController : MonoBehaviour
 
 	private Collider2D myCollider;
 
+	private bool initJump;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +32,14 @@ public class RayController : MonoBehaviour
         myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
-			myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
+			if (grounded){
+				myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
+				initJump = true;
+			}
+			else if (initJump){
+				myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
+				initJump = false;
+			}
 		}
     }
 }
