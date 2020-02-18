@@ -42,4 +42,10 @@ public class RayController : MonoBehaviour
 			}
 		}
     }
+
+	private void OnTriggerEnter2D(Collider2D other){
+		if (other.gameObject.CompareTag("coin")){
+			Destroy(other.gameObject);
+		}
+	}
 }
