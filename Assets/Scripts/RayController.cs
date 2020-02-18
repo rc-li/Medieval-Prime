@@ -29,7 +29,7 @@ public class RayController : MonoBehaviour
     {
 		grounded = Physics2D.IsTouchingLayers(myCollider, whatIsGround);
 
-        myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
+        //myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
 			if (grounded){
