@@ -17,11 +17,14 @@ public class RayController : MonoBehaviour
 
 	private bool initJump;
 
+	ScoreManager sm;
+
     // Start is called before the first frame update
     void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
 		myCollider = GetComponent<Collider2D>();
+		sm = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 
     // Update is called once per frame
@@ -42,4 +45,11 @@ public class RayController : MonoBehaviour
 			}
 		}
     }
+
+	private void OnTriggerEnter2D(Collider2D other){
+		if (other.gameObject.CompareTag("coin")){
+			Destroy(other.gameObject);
+			sm.ChangeScore(1);
+		}
+	}
 }
