@@ -5,11 +5,11 @@ public class Column : MonoBehaviour
 {
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.GetComponent<Bird>() != null)
+		if(other.GetComponent<PlayerControl>() != null)
 		{
-			//If the bird hits the trigger collider in between the columns then
-			//tell the game control that the bird scored.
-			GameControl.instance.BirdScored();
+			//If the player hits the trigger collider
+			//tell the game control that the player collected a coin.
+			GameControl.instance.CollectedGold();
 		}
 	}
 }

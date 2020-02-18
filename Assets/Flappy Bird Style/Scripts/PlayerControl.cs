@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bird : MonoBehaviour 
+public class PlayerControl : MonoBehaviour 
 {
 	public float upForce;					//Upward force of the "flap".
 	private bool isDead = false;            //Has the player collided with a wall?
@@ -48,15 +48,19 @@ public class Bird : MonoBehaviour
 		}
 	}
 
-	//void OnCollisionEnter2D(Collision2D other)
-	//{
-	//	// Zero out the bird's velocity
-	//	rb2d.velocity = Vector2.zero;
-	//	// If the bird collides with something set it to dead...
-	//	isDead = true;
-	//	//...tell the Animator about it...
-	//	anim.SetTrigger ("Die");
-	//	//...and tell the game control about it.
-	//	GameControl.instance.BirdDied ();
-	//}
+	void OnCollisionEnter2D(Collision2D col)
+	{
+		if(col.gameObject.tag == "Hazard")
+		{
+			// Zero out the bird's velocity
+			rb2d.velocity = Vector2.zero;
+			// If the bird collides with something set it to dead...
+			isDead = true;
+			//...tell the Animator about it...
+			//anim.SetTrigger("Die");
+			//...and tell the game control about it.
+			GameControl.instance.PlayerDied();
+		}
+		
+	}
 }

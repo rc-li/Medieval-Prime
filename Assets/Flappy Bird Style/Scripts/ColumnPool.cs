@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ColumnPool : MonoBehaviour 
 {
-	public GameObject columnPrefab;									//The column game object.
+	public GameObject[] hazardChunks;									//The column game object.
 	public int columnPoolSize = 5;									//How many columns to keep on standby.
 	public float spawnRate = 3f;									//How quickly columns spawn.
 	public float columnMin = -1f;									//Minimum y value of the column position.
@@ -28,7 +28,7 @@ public class ColumnPool : MonoBehaviour
 		for(int i = 0; i < columnPoolSize; i++)
 		{
 			//...and create the individual columns.
-			columns[i] = (GameObject)Instantiate(columnPrefab, objectPoolPosition, Quaternion.identity);
+			columns[i] = (GameObject)Instantiate(hazardChunks[i], objectPoolPosition, Quaternion.identity);
 		}
 	}
 
