@@ -76,9 +76,9 @@ public class GameControl : MonoBehaviour
 
 	public void hitNewTown()
 	{
-		//popUpWindow();
-		//quit();
-		continuePlay();
+        popUpWindow();
+        //quit();
+        //continuePlay();
 	}
 	public void popUpWindow()
 	{
@@ -93,15 +93,22 @@ public class GameControl : MonoBehaviour
 		Time.timeScale = 1f;
 		CoinMultiplierText.text = "Coin Multiplier: " + coinMultiplier.ToString();
 	}
-	public void quit()
-	{
-		totalCoin += coin;
-		TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
-		PlayerPrefs.SetInt("TotalCoin", totalCoin);
-		PlayerPrefs.Save();
-		coinMultiplier = 2;
-		Time.timeScale = 1f;
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-	}
+    public void quit()
+    {
+        totalCoin += coin;
+        TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
+        PlayerPrefs.SetInt("TotalCoin", totalCoin);
+        PlayerPrefs.Save();
+        coinMultiplier = 2;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+
+        Debug.Log("quit the game");
+
+    }
+
+
+
 }
