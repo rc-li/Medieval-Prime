@@ -18,6 +18,8 @@ public class GameControl : MonoBehaviour
 	public float scrollSpeed = -1.5f;
 	public GameObject menuPanel;
 	private static int totalCoin = 0;
+	public bool isPlaying = true;
+
 
 	void Awake()
 	{
@@ -84,10 +86,12 @@ public class GameControl : MonoBehaviour
 	{
 		Time.timeScale = 0f;
 		menuPanel.SetActive(true);
+		isPlaying = false;
 	}
 
 	public void continuePlay()
 	{
+		isPlaying = true;
 		menuPanel.SetActive(false);
 		coinMultiplier *= 2;
 		Time.timeScale = 1f;
@@ -101,11 +105,8 @@ public class GameControl : MonoBehaviour
         PlayerPrefs.SetInt("TotalCoin", totalCoin);
         PlayerPrefs.Save();
         coinMultiplier = 2;
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
-
-        Debug.Log("quit the game");
 
     }
 

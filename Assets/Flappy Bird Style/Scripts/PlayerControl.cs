@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour 
 {
+	public static PlayerControl instance;
 	public float upForce;					//Upward force of the "flap".
 	private bool isDead = false;            //Has the player collided with a wall?
 	public bool grounded;
@@ -11,6 +12,12 @@ public class PlayerControl : MonoBehaviour
 	private Rigidbody2D rb2d;               //Holds a reference to the Rigidbody2D component of the bird.
 	private Collider2D coll;
 	private bool initJump;
+	public Vector2 gravityModifier;
+
+	private void Awake()
+	{
+		Physics2D.gravity = gravityModifier;
+	}
 	void Start()
 	{
 		//Get reference to the Animator component attached to this GameObject.
@@ -24,7 +31,7 @@ public class PlayerControl : MonoBehaviour
 	void Update()
 	{
 		//Don't allow control if the bird has died.
-		if (isDead == false) 
+		if (isDead == false && GameControl.instance.isPlaying) 
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
 
