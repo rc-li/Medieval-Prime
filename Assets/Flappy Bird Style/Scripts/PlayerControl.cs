@@ -4,19 +4,15 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour 
 {
 	public static PlayerControl instance;
-	public float upForce;		
-	private bool isDead = false;            
+	public float upForce;					//Upward force of the "flap".
+	private bool isDead = false;            //Has the player collided with a wall?
 	public bool grounded;
-	public bool isDashing = false;
 	public LayerMask whatIsGround;
-	private Animator anim;					
-	private Rigidbody2D rb2d;               
+	private Animator anim;					//Reference to the Animator component.
+	private Rigidbody2D rb2d;               //Holds a reference to the Rigidbody2D component of the bird.
 	private Collider2D coll;
 	private bool initJump;
 	public Vector2 gravityModifier;
-	public float dashDuration;
-	private float dashSmooth;
-	public Vector3 dashRotation;
 
 	private void Awake()
 	{
@@ -24,16 +20,16 @@ public class PlayerControl : MonoBehaviour
 	}
 	void Start()
 	{
+		//Get reference to the Animator component attached to this GameObject.
 		anim = GetComponent<Animator> ();
+		//Get and store a reference to the Rigidbody2D attached to this GameObject.
 		rb2d = GetComponent<Rigidbody2D>();
-		coll = GetComponent<Collider2D>(); 
+		coll = GetComponent<Collider2D>();
 		
 	}
 
 	void Update()
 	{
-		// Make sure player stands straight
-		//rb2d.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 		//Don't allow control if the bird has died.
 		if (isDead == false && GameControl.instance.isPlaying) 
 		{
@@ -41,55 +37,21 @@ public class PlayerControl : MonoBehaviour
 
 			if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
 			{
-				// Jump
 				if (grounded)
 				{
-					//anim.SetTrigger("Flap");
+					anim.SetTrigger("Flap");
 					rb2d.velocity = Vector2.zero;
-					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
+					rb2d.AddForce(new Vector2(0, upForce));
 					initJump = true;
 				}
-				// Double Jump
 				else if (initJump)
 				{
-					//anim.SetTrigger("Flap");
+					anim.SetTrigger("Flap");
 					rb2d.velocity = Vector2.zero;
-					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
+					rb2d.AddForce(new Vector2(0, upForce));
 					initJump = false;
 				}
 			}
-
-			if (Input.GetMouseButtonDown(1))
-			{
-				// Dash down if character is jumping
-				if (!grounded)
-				{
-					rb2d.velocity = Vector2.zero;
-					rb2d.AddForce(new Vector2(0, -upForce * 1.5f),ForceMode2D.Impulse);
-					initJump = false;
-				}
-				// Slide if character is on the ground
-				else if(grounded && !isDashing)
-				{
-					StartCoroutine(DashThrough());
-					
-				}
-			}
-		}
-		IEnumerator DashThrough()
-		{
-			isDashing = true;
-			dashSmooth = Time.deltaTime * dashDuration;
-			transform.Rotate(dashRotation * dashSmooth);
-			rb2d.AddForce(new Vector2(0, -upForce * 1.5f), ForceMode2D.Impulse);
-
-			//yield on a new YieldInstruction that waits for 5 seconds.
-			yield return new WaitForSeconds(2);
-
-			dashSmooth = Time.deltaTime * dashDuration;
-			transform.Rotate(new Vector3(0,0,90) * dashSmooth);
-			rb2d.AddForce(new Vector2(0, upForce * 1.5f), ForceMode2D.Impulse);
-			isDashing = false;
 		}
 	}
 
@@ -97,10 +59,13 @@ public class PlayerControl : MonoBehaviour
 	{
 		if(col.gameObject.tag == "Hazard")
 		{
+			// Zero out the bird's velocity
 			rb2d.velocity = Vector2.zero;
+			// If the bird collides with something set it to dead...
 			isDead = true;
-			isDashing = false;
+			//...tell the Animator about it...
 			//anim.SetTrigger("Die");
+			//...and tell the game control about it.
 			GameControl.instance.PlayerDied();
 		}
 		
