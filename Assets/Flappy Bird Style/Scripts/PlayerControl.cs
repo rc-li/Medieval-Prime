@@ -42,7 +42,7 @@ public class PlayerControl : MonoBehaviour
 			//PC CONTROLS
 			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) 
 			var touch = Input.GetTouch(0);
-			if (touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended)
+			if (touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended || Input.GetKeyDown(KeyCode.Space))
 			{
 				// Jump
 				if (grounded)
