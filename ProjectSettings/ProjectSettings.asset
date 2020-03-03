@@ -692,7 +692,7 @@ PlayerSettings:
     Game_Performance: 0
     Hub: 0
     Purchasing: 0
-    UNet: 0
+    UNet: 1
     Unity_Ads: 0
   luminIcon:
     m_Name: 
@@ -706,10 +706,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 4d0d1760-a7af-47da-b3c7-b41e3e0a94b4
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: MedievalPrime
+  organizationId: ruichengorray
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
