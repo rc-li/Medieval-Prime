@@ -18,9 +18,6 @@ public class PlayerControl : MonoBehaviour
 	private float dashSmooth;
 	public Vector3 dashRotation;
 
-	// for mobile control
-	private float screenWidth;
-
 	private void Awake()
 	{
 		Physics2D.gravity = gravityModifier;
@@ -30,9 +27,6 @@ public class PlayerControl : MonoBehaviour
 		anim = GetComponent<Animator> ();
 		rb2d = GetComponent<Rigidbody2D>();
 		coll = GetComponent<Collider2D>(); 
-
-		//for mobile control
-		screenWidth = Screen.width;
 		
 	}
 
@@ -45,7 +39,7 @@ public class PlayerControl : MonoBehaviour
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
 
-			/*if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
 			{
 				// Jump
 				if (grounded)
@@ -63,7 +57,7 @@ public class PlayerControl : MonoBehaviour
 					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
 					initJump = false;
 				}
-			}*/
+			}
 
 			if (Input.GetMouseButtonDown(1))
 			{
@@ -110,24 +104,5 @@ public class PlayerControl : MonoBehaviour
 			GameControl.instance.PlayerDied();
 		}
 		
-	}
-
-	public void Jump(){
-		// Jump
-		if (grounded)
-		{
-			//anim.SetTrigger("Flap");
-			rb2d.velocity = Vector2.zero;
-			rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
-			initJump = true;
-		}
-		// Double Jump
-		else if (initJump)
-		{
-			//anim.SetTrigger("Flap");
-			rb2d.velocity = Vector2.zero;
-			rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
-			initJump = false;
-		}
 	}
 }

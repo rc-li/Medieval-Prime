@@ -33,7 +33,7 @@ public class RayController : MonoBehaviour
 		grounded = Physics2D.IsTouchingLayers(myCollider, whatIsGround);
 
         myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
-		/*
+
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
 			if (grounded){
 				myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
@@ -43,28 +43,13 @@ public class RayController : MonoBehaviour
 				myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
 				initJump = false;
 			}
-		}*/
+		}
     }
 
 	private void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.CompareTag("coin")){
 			Destroy(other.gameObject);
 			sm.ChangeScore(1);
-		}
-	}
-
-	public void print(){
-		Debug.Log("button pressed!!!");
-	}
-
-	public void jump(){
-		if (grounded){
-			myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
-			initJump = true;
-		}
-		else if (initJump){
-			myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
-			initJump = false;
 		}
 	}
 }
