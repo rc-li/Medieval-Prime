@@ -20,6 +20,11 @@ public class GameControl : MonoBehaviour
 	private static int totalCoin = 0;
 	public bool isPlaying = true;
 
+	// For counter text
+	public float timeStart = 10;
+    public Text counterText;
+	public bool newTown = false;
+
 
 	void Awake()
 	{
@@ -52,6 +57,22 @@ public class GameControl : MonoBehaviour
 		}
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
 		TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
+
+		if (newTown) 
+		{
+			if (Mathf.Round(timeStart) == 0) {
+				int choice = Random.Range(1,3);
+				if (choice == 1){
+					quit();
+					Debug.Log("QUIT");
+				} else {
+					Debug.Log("PLAY");
+				}
+			} else {
+				timeStart -= Time.unscaledDeltaTime;
+				counterText.text = Mathf.Round(timeStart).ToString();
+			}
+		}
 	}
 
 	public void CollectedGold()
@@ -79,6 +100,7 @@ public class GameControl : MonoBehaviour
 	public void hitNewTown()
 	{
         popUpWindow();
+		newTown = true;
         //quit();
         //continuePlay();
 	}
@@ -86,6 +108,7 @@ public class GameControl : MonoBehaviour
 	{
 		Time.timeScale = 0f;
 		menuPanel.SetActive(true);
+		counterText.text = timeStart.ToString();
 		isPlaying = false;
 	}
 
@@ -105,7 +128,8 @@ public class GameControl : MonoBehaviour
         PlayerPrefs.SetInt("TotalCoin", totalCoin);
         PlayerPrefs.Save();
         coinMultiplier = 2;
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		// SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		SceneManager.LoadScene("Lucy");
         Time.timeScale = 1f;
 
     }

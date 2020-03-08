@@ -6,17 +6,17 @@ public class PlayerControl : MonoBehaviour
 	public static PlayerControl instance;
 	public float upForce;		
 	private bool isDead = false;            
-	public bool grounded;
+	public bool grounded = true;
 	public bool isDashing = false;
 	public LayerMask whatIsGround;
 	private Animator anim;					
 	private Rigidbody2D rb2d;               
 	private Collider2D coll;
-	private bool initJump;
+	private bool initJump = false;
 	public Vector2 gravityModifier;
 	public float dashDuration;
-	private float dashSmooth;
 	public Vector3 dashRotation;
+	private SpriteRenderer renderer;
 
 	private void Awake()
 	{
@@ -26,8 +26,9 @@ public class PlayerControl : MonoBehaviour
 	{
 		anim = GetComponent<Animator> ();
 		rb2d = GetComponent<Rigidbody2D>();
-		coll = GetComponent<Collider2D>(); 
-		
+		coll = GetComponent<Collider2D>();
+		renderer = GetComponent<SpriteRenderer>();
+
 	}
 
 	void Update()
@@ -38,8 +39,13 @@ public class PlayerControl : MonoBehaviour
 		if (isDead == false && GameControl.instance.isPlaying) 
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
+			//PC CONTROLS
+			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)
 
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+			//PHONE CONTROLS
+			//var touch = Input.GetTouch(0);
+			//touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended ||
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				// Jump
 				if (grounded)
@@ -47,62 +53,98 @@ public class PlayerControl : MonoBehaviour
 					//anim.SetTrigger("Flap");
 					rb2d.velocity = Vector2.zero;
 					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
+					renderer.color = new Color(0f, 255f, 0f, 1f);
 					initJump = true;
 				}
 				// Double Jump
-				else if (initJump)
+				else if(initJump)
 				{
 					//anim.SetTrigger("Flap");
 					rb2d.velocity = Vector2.zero;
 					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
+					renderer.color = new Color(0.5f, 0.5f, 0.5f, 1f);
 					initJump = false;
 				}
 			}
+			// PC CONTROLS
+			// Input.GetMouseButtonDown(1)
 
-			if (Input.GetMouseButtonDown(1))
+			//PHONE CONTROLS
+			//touch.position.x < Screen.width / 2
+			else if (Input.GetMouseButtonDown(1))
 			{
-				// Dash down if character is jumping
-				if (!grounded)
-				{
-					rb2d.velocity = Vector2.zero;
-					rb2d.AddForce(new Vector2(0, -upForce * 1.5f),ForceMode2D.Impulse);
-					initJump = false;
-				}
-				// Slide if character is on the ground
-				else if(grounded && !isDashing)
-				{
-					StartCoroutine(DashThrough());
-					
-				}
+				Dash();
 			}
-		}
-		IEnumerator DashThrough()
-		{
-			isDashing = true;
-			dashSmooth = Time.deltaTime * dashDuration;
-			transform.Rotate(dashRotation * dashSmooth);
-			rb2d.AddForce(new Vector2(0, -upForce * 1.5f), ForceMode2D.Impulse);
+			
 
-			//yield on a new YieldInstruction that waits for 5 seconds.
-			yield return new WaitForSeconds(2);
-
-			dashSmooth = Time.deltaTime * dashDuration;
-			transform.Rotate(new Vector3(0,0,90) * dashSmooth);
-			rb2d.AddForce(new Vector2(0, upForce * 1.5f), ForceMode2D.Impulse);
-			isDashing = false;
 		}
+
 	}
 
-	void OnCollisionEnter2D(Collision2D col)
+
+	void Dash()
 	{
-		if(col.gameObject.tag == "Hazard")
+		// Dash down if character is jumping
+		if (!grounded)
 		{
+			rb2d.velocity = Vector2.zero;
+			rb2d.AddForce(new Vector2(0, -upForce * 1.5f), ForceMode2D.Impulse);
+			initJump = false;
+		}
+		// Slide if character is on the ground
+		else if (grounded && !isDashing)
+		{
+			StartCoroutine(DashThrough());
+
+		}
+	}
+	IEnumerator DashThrough()
+	{
+		Debug.Log("Started Dash");
+		isDashing = true;
+		renderer.color = new Color(153f,0f, 0f, 1f);
+		//yield on a new YieldInstruction that waits for 5 seconds.
+		yield return new WaitForSeconds(dashDuration);
+
+		Debug.Log("Waited Dash");
+		renderer.color = Color.white;
+		isDashing = false;
+	}
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		Debug.Log("Trigger");
+		if(col.gameObject.tag == "lowHazard" && grounded == true)
+		{
+			Debug.Log("Trigger low");
 			rb2d.velocity = Vector2.zero;
 			isDead = true;
 			isDashing = false;
 			//anim.SetTrigger("Die");
 			GameControl.instance.PlayerDied();
 		}
-		
+
+		if (col.gameObject.tag == "highHazard" && initJump == true && grounded == false)
+		{
+			Debug.Log("Trigger high");
+			rb2d.velocity = Vector2.zero;
+			isDead = true;
+			isDashing = false;
+			//anim.SetTrigger("Die");
+			GameControl.instance.PlayerDied();
+		}
+
+		if (col.gameObject.tag == "dashHazard" && isDashing == false)
+		{
+			Debug.Log("Trigger dash");
+			rb2d.velocity = Vector2.zero;
+			isDead = true;
+			isDashing = false;
+			//anim.SetTrigger("Die");
+			GameControl.instance.PlayerDied();
+		}
+
+
+
 	}
 }
