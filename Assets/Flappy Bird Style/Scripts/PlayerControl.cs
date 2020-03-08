@@ -40,9 +40,12 @@ public class PlayerControl : MonoBehaviour
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
 			//PC CONTROLS
-			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) 
-			var touch = Input.GetTouch(0);
-			if (touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended || Input.GetKeyDown(KeyCode.Space))
+			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)
+
+			//PHONE CONTROLS
+			//var touch = Input.GetTouch(0);
+			//touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended ||
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				// Jump
 				if (grounded)
@@ -65,7 +68,10 @@ public class PlayerControl : MonoBehaviour
 			}
 			// PC CONTROLS
 			// Input.GetMouseButtonDown(1)
-			else if (touch.position.x < Screen.width / 2)
+
+			//PHONE CONTROLS
+			//touch.position.x < Screen.width / 2
+			else if (Input.GetMouseButtonDown(1))
 			{
 				Dash();
 			}

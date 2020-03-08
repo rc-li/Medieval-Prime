@@ -18,13 +18,11 @@ public class CheckPointMenu : MonoBehaviour
     void Update()
     {   
         if (Mathf.Round(timeStart) == 0) {
-            Time.timeScale = 0f;
-
             int choice = Random.Range(1,3);
             Debug.Log(choice.ToString());
             Debug.Log("CHANGE");
         } else {
-            timeStart -= Time.deltaTime;
+            timeStart -= Time.unscaledDeltaTime;
             textBox.text = Mathf.Round(timeStart).ToString();
         }
         
