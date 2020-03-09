@@ -50,7 +50,7 @@ public class RayTutorialManager : MonoBehaviour {
 		if (popUpIndex == 1) {
 			if (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Mouse0)) {
 				playerRigidBody.gravityScale = 5;
-				playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, RayController.jumpForce);
+				playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 5);
 			}
 		}
 

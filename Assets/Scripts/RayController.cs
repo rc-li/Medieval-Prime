@@ -7,7 +7,7 @@ public class RayController : MonoBehaviour
 {
 
 	public float moveSpeed;
-	public static float jumpForce;
+	public float jumpForce;
 
 	private Rigidbody2D myRigidBody;
 
