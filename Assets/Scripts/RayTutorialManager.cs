@@ -9,9 +9,10 @@ public class RayTutorialManager : MonoBehaviour {
 	public int popUpIndex;
 	public float waitTime;
 	public bool tutorial_1;
+	public Rigidbody2D playerRigidBody;
 
-	void private void Awake() {
-		Rigidbody2D playerRigidBody = GameObject.Find ("player").GetComponent<Rigidbody2D> ();
+	void Awake() {
+		playerRigidBody = GameObject.Find ("player").GetComponent<Rigidbody2D> ();
 	}
 
 
