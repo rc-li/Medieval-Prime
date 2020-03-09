@@ -8,6 +8,7 @@ public class GameControl : MonoBehaviour
 	public static GameControl instance;			//A reference to our game control script so we can access it statically.
 	public Text coinText;
 	public Text TotalCoinText;
+	public Text heartText;
 	public Text CoinMultiplierText;	//A reference to the UI text component that displays the player's score.
 	public GameObject gameOvertext;				//A reference to the object that displays the text which appears when the player dies.
 
@@ -26,7 +27,7 @@ public class GameControl : MonoBehaviour
 	public bool newTown = false;
 
 	// For life counter
-	private static int lifeCounter = 1;
+	private int lifeCounter = 1;
 
 	void Awake()
 	{
@@ -61,6 +62,7 @@ public class GameControl : MonoBehaviour
 		}
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
 		TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
+		heartText.text = lifeCounter.ToString();
 
 		if (newTown == true) 
 		{
@@ -135,11 +137,14 @@ public class GameControl : MonoBehaviour
         totalCoin += coin;
         TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
         PlayerPrefs.SetInt("TotalCoin", totalCoin);
-		PlayerPrefs.SetInt("TotalLife", lifeCounter);
         PlayerPrefs.Save();
         coinMultiplier = 2;
 		// SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		SceneManager.LoadScene("Lucy");
         Time.timeScale = 1f;
     }
+
+	public void updateLifeCounter(){
+		lifeCounter -= 1;
+	}
 }

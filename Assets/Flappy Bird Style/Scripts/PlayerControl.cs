@@ -17,6 +17,8 @@ public class PlayerControl : MonoBehaviour
 	public float dashDuration;
 	public Vector3 dashRotation;
 	private SpriteRenderer renderer;
+	public int lifeCounter = 1;
+	public int bufferTime = 3;
 
 	private void Awake()
 	{
@@ -28,6 +30,7 @@ public class PlayerControl : MonoBehaviour
 		rb2d = GetComponent<Rigidbody2D>();
 		coll = GetComponent<Collider2D>();
 		renderer = GetComponent<SpriteRenderer>();
+		lifeCounter = PlayerPrefs.GetInt("TotalLife", 1);
 
 	}
 
@@ -110,37 +113,58 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
-	{
+	{	
 		Debug.Log("Trigger");
-		if(col.gameObject.tag == "lowHazard" && grounded == true)
-		{
-			Debug.Log("Trigger low");
-			rb2d.velocity = Vector2.zero;
-			isDead = true;
-			isDashing = false;
-			//anim.SetTrigger("Die");
-			GameControl.instance.PlayerDied();
-		}
 
-		if (col.gameObject.tag == "highHazard" && initJump == true && grounded == false)
+		if((col.gameObject.tag == "lowHazard" && grounded == true) || 
+		(col.gameObject.tag == "highHazard" && initJump == true && grounded == false) ||
+		(col.gameObject.tag == "dashHazard" && isDashing == false))
 		{
-			Debug.Log("Trigger high");
-			rb2d.velocity = Vector2.zero;
-			isDead = true;
-			isDashing = false;
-			//anim.SetTrigger("Die");
-			GameControl.instance.PlayerDied();
-		}
+			GameControl.instance.updateLifeCounter();
 
-		if (col.gameObject.tag == "dashHazard" && isDashing == false)
-		{
-			Debug.Log("Trigger dash");
-			rb2d.velocity = Vector2.zero;
-			isDead = true;
-			isDashing = false;
-			//anim.SetTrigger("Die");
-			GameControl.instance.PlayerDied();
+			if(lifeCounter == 0)
+			{
+				rb2d.velocity = Vector2.zero;
+				GameControl.instance.PlayerDied();
+				isDashing = false;
+				isDead = true;
+				//anim.SetTrigger("Die");
+			} else 
+			{
+				
+			}
 		}
+		
+		// if (col.gameObject.tag == "lowHazard" && grounded == true)
+		// {
+		// 	Debug.Log("Trigger low");
+		// 	rb2d.velocity = Vector2.zero;
+		// 	isDead = true;
+		// 	isDashing = false;
+		// 	//anim.SetTrigger("Die"); 
+			
+		// 	GameControl.instance.PlayerDied();
+		// }
+
+		// if (col.gameObject.tag == "highHazard" && initJump == true && grounded == false)
+		// {
+		// 	Debug.Log("Trigger high");
+		// 	rb2d.velocity = Vector2.zero;
+		// 	isDead = true;
+		// 	isDashing = false;
+		// 	//anim.SetTrigger("Die");
+		// 	GameControl.instance.PlayerDied();
+		// }
+
+		// if (col.gameObject.tag == "dashHazard" && isDashing == false)
+		// {
+		// 	Debug.Log("Trigger dash");
+		// 	rb2d.velocity = Vector2.zero;
+		// 	isDead = true;
+		// 	isDashing = false;
+		// 	//anim.SetTrigger("Die");
+		// 	GameControl.instance.PlayerDied();
+		// }
 
 
 
