@@ -25,6 +25,9 @@ public class GameControl : MonoBehaviour
     public Text counterText;
 	public bool newTown = false;
 
+	// For life counter
+	private static int lifeCounter = 1;
+
 	void Awake()
 	{
 		newTown = false;
@@ -45,11 +48,11 @@ public class GameControl : MonoBehaviour
 
 		// Save total coin to disk
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
+		lifeCounter = PlayerPrefs.GetInt("TotalLife", lifeCounter);
 	}
 
 	void Update()
 	{	
-		Debug.Log(newTown.ToString());
 		//If the game is over and the player has pressed some input...
 		if (gameOver && Input.GetMouseButtonDown(0)) 
 		{
@@ -65,12 +68,11 @@ public class GameControl : MonoBehaviour
 				int choice = Random.Range(1,3);
 				if (choice == 1){
 					quit();
-					Debug.Log("QUIT");
+
 				} else {
-					Debug.Log("PLAY");
+
 				}
 			} else {
-				Debug.Log("CHECK DELTA TIME");
 				Debug.Log(Time.unscaledDeltaTime.ToString());
 				timeStart -= Time.unscaledDeltaTime;
 				counterText.text = Mathf.Round(timeStart).ToString();
@@ -103,7 +105,7 @@ public class GameControl : MonoBehaviour
 
 	public void hitNewTown()
 	{
-		Debug.Log("HIT NEW TOWN");
+
         popUpWindow();
 		newTown = true;
         //quit();
@@ -133,6 +135,7 @@ public class GameControl : MonoBehaviour
         totalCoin += coin;
         TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
         PlayerPrefs.SetInt("TotalCoin", totalCoin);
+		PlayerPrefs.SetInt("TotalLife", lifeCounter);
         PlayerPrefs.Save();
         coinMultiplier = 2;
 		// SceneManager.LoadScene(SceneManager.GetActiveScene().name);
