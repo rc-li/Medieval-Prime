@@ -29,6 +29,12 @@ public class GameControl : MonoBehaviour
 	// For life counter
 	private int lifeCounter = 1;
 
+	// Sound Effects
+	public AudioSource myFx;
+    public AudioClip jumpFx;
+    public AudioClip coinFx;
+    public AudioClip dashFx;
+
 	void Awake()
 	{
 		newTown = false;
@@ -55,6 +61,7 @@ public class GameControl : MonoBehaviour
 	void Update()
 	{	
 		//If the game is over and the player has pressed some input...
+		// && Input.GetMouseButtonDown(0)
 		if (gameOver && Input.GetMouseButtonDown(0)) 
 		{
 			//...reload the current scene.
@@ -146,5 +153,26 @@ public class GameControl : MonoBehaviour
 
 	public void updateLifeCounter(){
 		lifeCounter -= 1;
+		Debug.Log("LIFE: " + lifeCounter.ToString());
 	}
+
+	public bool checkDead(){
+		if (lifeCounter == 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void JumpSound(){
+        myFx.PlayOneShot(jumpFx);
+    }
+
+	public void CoinSound(){
+        myFx.PlayOneShot(coinFx);
+    }
+
+	public void DashSound(){
+        myFx.PlayOneShot(dashFx);
+    }
 }
