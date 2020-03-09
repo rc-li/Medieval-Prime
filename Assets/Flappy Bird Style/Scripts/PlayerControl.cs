@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour 
+public class PlayerControl : MonoBehaviour
 {
 	public static PlayerControl instance;
-	public float upForce;		
-	private bool isDead = false;            
+	public float upForce;
+	private bool isDead = false;
 	public bool grounded = true;
 	public bool isDashing = false;
 	public LayerMask whatIsGround;
-	private Animator anim;					
-	private Rigidbody2D rb2d;               
+	private Animator anim;
+	private Rigidbody2D rb2d;
 	private Collider2D coll;
 	private bool initJump = false;
 	public Vector2 gravityModifier;
@@ -36,11 +36,11 @@ public class PlayerControl : MonoBehaviour
 		// Make sure player stands straight
 		//rb2d.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 		//Don't allow control if the bird has died.
-		if (isDead == false && GameControl.instance.isPlaying) 
+		if (isDead == false && GameControl.instance.isPlaying)
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
 			//PC CONTROLS
-			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) 
+			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)
 			// MOBILE CONTROLS
 			// touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended || Input.GetKeyDown(KeyCode.Space)
 			// var touch = Input.GetTouch(0);
@@ -73,7 +73,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				Dash();
 			}
-			
+
 
 		}
 
