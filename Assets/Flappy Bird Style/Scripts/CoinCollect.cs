@@ -10,6 +10,7 @@ public class CoinCollect : MonoBehaviour
         if (collider.GetComponent<PlayerControl>() != null)
         {
             GameControl.instance.CollectedGold();
+            GameControl.instance.CoinSound();
             Destroy(this.gameObject);
         }
     }

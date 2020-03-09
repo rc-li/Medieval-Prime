@@ -8,6 +8,7 @@ public class GameControl : MonoBehaviour
 	public static GameControl instance;			//A reference to our game control script so we can access it statically.
 	public Text coinText;
 	public Text TotalCoinText;
+	public Text heartText;
 	public Text CoinMultiplierText;	//A reference to the UI text component that displays the player's score.
 	public GameObject gameOvertext;				//A reference to the object that displays the text which appears when the player dies.
 
@@ -26,7 +27,13 @@ public class GameControl : MonoBehaviour
 	public bool newTown = false;
 
 	// For life counter
-	private static int lifeCounter = 1;
+	private int lifeCounter = 1;
+
+	// Sound Effects
+	public AudioSource myFx;
+    public AudioClip jumpFx;
+    public AudioClip coinFx;
+    public AudioClip dashFx;
 
 	void Awake()
 	{
@@ -54,6 +61,7 @@ public class GameControl : MonoBehaviour
 	void Update()
 	{	
 		//If the game is over and the player has pressed some input...
+		// && Input.GetMouseButtonDown(0)
 		if (gameOver && Input.GetMouseButtonDown(0)) 
 		{
 			//...reload the current scene.
@@ -61,6 +69,7 @@ public class GameControl : MonoBehaviour
 		}
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
 		TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
+		heartText.text = lifeCounter.ToString();
 
 		if (newTown == true) 
 		{
@@ -135,11 +144,35 @@ public class GameControl : MonoBehaviour
         totalCoin += coin;
         TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
         PlayerPrefs.SetInt("TotalCoin", totalCoin);
-		PlayerPrefs.SetInt("TotalLife", lifeCounter);
         PlayerPrefs.Save();
         coinMultiplier = 2;
 		// SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		SceneManager.LoadScene("Lucy");
         Time.timeScale = 1f;
+    }
+
+	public void updateLifeCounter(){
+		lifeCounter -= 1;
+		Debug.Log("LIFE: " + lifeCounter.ToString());
+	}
+
+	public bool checkDead(){
+		if (lifeCounter == 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void JumpSound(){
+        myFx.PlayOneShot(jumpFx);
+    }
+
+	public void CoinSound(){
+        myFx.PlayOneShot(coinFx);
+    }
+
+	public void DashSound(){
+        myFx.PlayOneShot(dashFx);
     }
 }
