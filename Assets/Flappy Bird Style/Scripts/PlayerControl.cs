@@ -41,8 +41,10 @@ public class PlayerControl : MonoBehaviour
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
 			//PC CONTROLS
 			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) 
-			var touch = Input.GetTouch(0);
-			if (touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended || Input.GetKeyDown(KeyCode.Space))
+			// MOBILE CONTROLS
+			// touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended || Input.GetKeyDown(KeyCode.Space)
+			// var touch = Input.GetTouch(0);
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && !isDashing)
 			{
 				// Jump
 				if (grounded)
@@ -65,7 +67,9 @@ public class PlayerControl : MonoBehaviour
 			}
 			// PC CONTROLS
 			// Input.GetMouseButtonDown(1)
-			else if (touch.position.x < Screen.width / 2)
+			// MOBILE CONTROLS
+			// touch.position.x < Screen.width / 2
+			else if (Input.GetMouseButtonDown(1))
 			{
 				Dash();
 			}
