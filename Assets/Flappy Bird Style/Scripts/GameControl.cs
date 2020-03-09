@@ -25,9 +25,9 @@ public class GameControl : MonoBehaviour
     public Text counterText;
 	public bool newTown = false;
 
-
 	void Awake()
 	{
+		newTown = false;
 		//If we don't currently have a game control...
 		if (instance == null)
 			//...set this one to be it...
@@ -48,7 +48,8 @@ public class GameControl : MonoBehaviour
 	}
 
 	void Update()
-	{
+	{	
+		Debug.Log(newTown.ToString());
 		//If the game is over and the player has pressed some input...
 		if (gameOver && Input.GetMouseButtonDown(0)) 
 		{
@@ -58,7 +59,7 @@ public class GameControl : MonoBehaviour
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
 		TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
 
-		if (newTown) 
+		if (newTown == true) 
 		{
 			if (Mathf.Round(timeStart) == 0) {
 				int choice = Random.Range(1,3);
@@ -69,6 +70,8 @@ public class GameControl : MonoBehaviour
 					Debug.Log("PLAY");
 				}
 			} else {
+				Debug.Log("CHECK DELTA TIME");
+				Debug.Log(Time.unscaledDeltaTime.ToString());
 				timeStart -= Time.unscaledDeltaTime;
 				counterText.text = Mathf.Round(timeStart).ToString();
 			}
@@ -91,6 +94,7 @@ public class GameControl : MonoBehaviour
 
 	public void PlayerDied()
 	{
+		newTown = false;
 		//Activate the game over text.
 		gameOvertext.SetActive (true);
 		//Set the game to be over.
@@ -99,6 +103,7 @@ public class GameControl : MonoBehaviour
 
 	public void hitNewTown()
 	{
+		Debug.Log("HIT NEW TOWN");
         popUpWindow();
 		newTown = true;
         //quit();
@@ -114,6 +119,7 @@ public class GameControl : MonoBehaviour
 
 	public void continuePlay()
 	{
+		newTown = false;
 		isPlaying = true;
 		menuPanel.SetActive(false);
 		coinMultiplier *= 2;
@@ -122,7 +128,8 @@ public class GameControl : MonoBehaviour
 	}
 
     public void quit()
-    {
+    {	
+		newTown = false;
         totalCoin += coin;
         TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
         PlayerPrefs.SetInt("TotalCoin", totalCoin);
@@ -131,9 +138,5 @@ public class GameControl : MonoBehaviour
 		// SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		SceneManager.LoadScene("Lucy");
         Time.timeScale = 1f;
-
     }
-
-
-
 }
