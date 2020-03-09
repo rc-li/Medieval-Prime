@@ -6,11 +6,22 @@ using UnityEngine.UI;
 public class StoreMenu : MonoBehaviour
 {
     public GameObject img;
-    public int coins = 500;
-    public Text textBox;
+
+    public int coins;
+    public Text coinText;
+
+    public int life;
+    public Text lifeText;
+
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        coins = PlayerPrefs.GetInt("TotalCoin", 0);
+        life = PlayerPrefs.GetInt("TotalLife", 1);
+
+        coinText.text = coins.ToString();
+        lifeText.text = life.ToString();
+
     }
 
     void ChangeImage()
@@ -24,18 +35,26 @@ public class StoreMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void Upgrade()
     {
-        if (coins < 100) {
+        if (coins < 10) {
             Debug.Log("NOT ENOUGH COINS");
         } else {
-            coins -= 100;
-            textBox.text = coins.ToString();
-            ChangeImage();
+            coins -= 5;
+            PlayerPrefs.SetInt("TotalCoin", coins);
+            PlayerPrefs.Save();
+            coinText.text = coins.ToString();
         }
         
+    }
+
+    public void lifeUpgrade(){
+        Upgrade();
+        life += 1;
+        PlayerPrefs.SetInt("TotalLife", life);
+        PlayerPrefs.Save();
+        lifeText.text = life.ToString();
     }
 }
