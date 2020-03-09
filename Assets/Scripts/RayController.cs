@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Diagnostics;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class RayController : MonoBehaviour
 {
 
 	public float moveSpeed;
-	public float jumpForce;
+	public static float jumpForce;
 
 	private Rigidbody2D myRigidBody;
 
@@ -18,6 +19,7 @@ public class RayController : MonoBehaviour
 	private bool initJump;
 
 	ScoreManager sm;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,7 @@ public class RayController : MonoBehaviour
     {
 		grounded = Physics2D.IsTouchingLayers(myCollider, whatIsGround);
 
-        myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
+        // myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
 			if (grounded){
