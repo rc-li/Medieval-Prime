@@ -68,9 +68,9 @@ public class GameControl : MonoBehaviour
 				int choice = Random.Range(1,3);
 				if (choice == 1){
 					quit();
-					Debug.Log("QUIT");
+
 				} else {
-					Debug.Log("PLAY");
+
 				}
 			} else {
 				Debug.Log(Time.unscaledDeltaTime.ToString());
@@ -105,7 +105,7 @@ public class GameControl : MonoBehaviour
 
 	public void hitNewTown()
 	{
-		Debug.Log("HIT NEW TOWN");
+
         popUpWindow();
 		newTown = true;
         //quit();

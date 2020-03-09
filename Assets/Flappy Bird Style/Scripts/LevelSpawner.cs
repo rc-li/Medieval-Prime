@@ -10,19 +10,19 @@ public class LevelSpawner : MonoBehaviour
     private int spawnCount = 0;
     void Start()
     {
-        InvokeRepeating("spawnChunk", 2.0f, 3f);
+        InvokeRepeating("spawnChunk", 3.0f, 5f);
     }
 
     void spawnChunk()
     {
         if(spawnCount < 10)
         {
-            Instantiate(hazardChunks, transform.TransformPoint(new Vector3(5f, -3.5f, 0f)), Quaternion.identity);
+            Instantiate(hazardChunks, transform.TransformPoint(new Vector3(35f, -2f, 0f)), Quaternion.identity);
             spawnCount++;
         }
         else
         {
-            Instantiate(town, transform.TransformPoint(new Vector3(5f, -3.5f, 0f)), Quaternion.identity);
+            town.transform.position = new Vector3(35f, -2f, 0f);
             spawnCount = 0;
         }
         
