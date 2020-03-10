@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -19,7 +20,10 @@ public class PlayerControl : MonoBehaviour
 	private SpriteRenderer renderer;
 	public int bufferTime = 3;
 
-	public float dashScale = 0.06f;
+	public float dashScale = 0.03f;
+	public float recoverScale = 0.06f;
+
+	public bool shrink = false;
 
 	private void Awake()
 	{
@@ -42,53 +46,61 @@ public class PlayerControl : MonoBehaviour
 		if (isDead == false && GameControl.instance.isPlaying)
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
-			//PC CONTROLS
-			//Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)
-			// MOBILE CONTROLS
-			// touch.position.x > Screen.width/2 && touch.phase == TouchPhase.Ended || Input.GetKeyDown(KeyCode.Space)
-			// var touch = Input.GetTouch(0);
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && !isDashing)
-			{
-				// Jump
-				if (grounded)
-				{
-					//anim.SetTrigger("Flap");
-					rb2d.velocity = Vector2.zero;
-					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
-					renderer.color = new Color(0f, 255f, 0f, 1f);
-					initJump = true;
-					GameControl.instance.JumpSound();
-				}
-				// Double Jump
-				else if(initJump)
-				{
-					//anim.SetTrigger("Flap");
-					rb2d.velocity = Vector2.zero;
-					rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
-					renderer.color = new Color(0.5f, 0.5f, 0.5f, 1f);
-					initJump = false;
-					GameControl.instance.JumpSound();
-				}
+
+			if (shrink) {
+				Shrink();
+			} else {
+				Recover();
 			}
-			// PC CONTROLS
-			// Input.GetMouseButtonDown(1)
-			// MOBILE CONTROLS
-			// touch.position.x < Screen.width / 2
-			else if (Input.GetMouseButtonDown(1) || Input.GetKey(KeyCode.DownArrow))
+
+			int i = 0;
+       		while (i < Input.touchCount)
 			{
-				if (renderer.transform.localScale.y > 0.5){
-					renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
-					renderer.color = new Color(153f,0f, 0f, 1f);
+				Touch touch = Input.GetTouch(i);
+
+				// PC CONTROLS
+				// if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && !isDashing)
+
+				// MOBILE CONTROLS
+
+				if (touch.position.x < Screen.width/2)
+				{
+					if (touch.phase == TouchPhase.Began)
+					{
+						Dash();
+					} 
+					else if (touch.phase == TouchPhase.Stationary)
+					{
+						if (grounded) 
+						{
+							shrink = true;
+							Shrink();
+						}
+					}
+					else if (touch.phase == TouchPhase.Ended)
+					{
+						shrink = false;
+					}
+				} else if (touch.position.x > Screen.width/2)
+				{
+					if (touch.phase == TouchPhase.Began)
+					{
+						if (grounded)
+						{
+							Jump();
+							Debug.Log("initj - jump: " + initJump.ToString());
+
+						}
+						// Double Jump
+						else if (initJump)
+						{
+							DoubleJump();
+							Debug.Log("initj - djump: " + initJump.ToString());
+						}
+					}
+					
 				}
-				// Dash();
-				GameControl.instance.DashSound();
-			}
-			else
-			{
-				renderer.color = Color.white;
-				if (renderer.transform.localScale.y < 1.41) {
-					renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + dashScale);
-				}
+				++i;
 			}
 		}
 	}
@@ -103,10 +115,10 @@ public class PlayerControl : MonoBehaviour
 			initJump = false;
 		}
 		// Slide if character is on the ground
-		else if (grounded && !isDashing)
-		{
-			StartCoroutine(DashThrough());
-		}
+		// else if (grounded && !isDashing)
+		// {
+		// 	StartCoroutine(DashThrough());
+		// }
 	}
 	IEnumerator DashThrough()
 	{
@@ -120,6 +132,8 @@ public class PlayerControl : MonoBehaviour
 		renderer.color = Color.white;
 		isDashing = false;
 	}
+
+
 
 	void OnTriggerEnter2D(Collider2D col)
 	{	
@@ -140,39 +154,43 @@ public class PlayerControl : MonoBehaviour
 				//anim.SetTrigger("Die");
 			} else 
 			{
-
+				//colliding buffer effect
 			}
 		}
-		
-		// if (col.gameObject.tag == "lowHazard" && grounded == true)
-		// {
-		// 	Debug.Log("Trigger low");
-		// 	rb2d.velocity = Vector2.zero;
-		// 	isDead = true;
-		// 	isDashing = false;
-		// 	//anim.SetTrigger("Die"); 
-			
-		// 	GameControl.instance.PlayerDied();
-		// }
+	}
 
-		// if (col.gameObject.tag == "highHazard" && initJump == true && grounded == false)
-		// {
-		// 	Debug.Log("Trigger high");
-		// 	rb2d.velocity = Vector2.zero;
-		// 	isDead = true;
-		// 	isDashing = false;
-		// 	//anim.SetTrigger("Die");
-		// 	GameControl.instance.PlayerDied();
-		// }
+	void Jump(){
+		initJump = true;
+		rb2d.velocity = Vector2.zero;
+		rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
+		renderer.color = new Color(0f, 255f, 0f, 1f);
+		GameControl.instance.JumpSound();
+	}
 
-		// if (col.gameObject.tag == "dashHazard" && isDashing == false)
-		// {
-		// 	Debug.Log("Trigger dash");
-		// 	rb2d.velocity = Vector2.zero;
-		// 	isDead = true;
-		// 	isDashing = false;
-		// 	//anim.SetTrigger("Die");
-		// 	GameControl.instance.PlayerDied();
-		// }
+	void DoubleJump(){
+		initJump = false;
+		rb2d.velocity = Vector2.zero;
+		rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
+		renderer.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+		GameControl.instance.JumpSound();
+	}
+
+	void Shrink(){
+		Debug.Log("SHRINK: " + renderer.transform.localScale.y.ToString());
+		if (renderer.transform.localScale.y > 0.5)
+		{	
+			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
+			renderer.color = new Color(153f,0f, 0f, 1f);
+			GameControl.instance.DashSound();
+		}
+	}
+
+	void Recover(){
+		Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
+		if (renderer.transform.localScale.y < 1.41) 
+		{	
+			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
+		}
+		renderer.color = Color.white;
 	}
 }
