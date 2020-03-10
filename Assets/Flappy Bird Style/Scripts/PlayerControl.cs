@@ -20,8 +20,8 @@ public class PlayerControl : MonoBehaviour
 	private SpriteRenderer renderer;
 	public int bufferTime = 3;
 
-	public float dashScale = 0.03f;
-	public float recoverScale = 0.06f;
+	public float dashScale = 0.06f;
+	public float recoverScale = 0.03f;
 
 	public bool shrink = false;
 
