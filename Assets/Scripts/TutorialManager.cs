@@ -103,7 +103,7 @@ public class TutorialManager : MonoBehaviour {
 				//playerRigidBody.velocity = new Vector2(runSpeed, jumpForce);
 				//playerRigidBody.gravityScale = gravityScale;
 				Time.timeScale = 1f;
-				waitTime = 0.25f;
+				waitTime = 3f;
 				popUpIndex++;
 				waitForUserInput = false;
 			}
@@ -111,8 +111,34 @@ public class TutorialManager : MonoBehaviour {
 		}
 
 		if (popUpIndex == 5) {
-
+			if (waitTime <= 0) {
+				popUpIndex++;
+				waitTime = 2f;
+            } else {
+				waitTime -= Time.deltaTime;
+            }
 		}
+
+		if (popUpIndex == 6) {
+			if (waitTime <= 0) {
+				popUpIndex++;
+				Time.timeScale = 0f;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
+		}
+
+
+		if (popUpIndex == 7) {
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+				Time.timeScale = 1f;
+				popUpIndex++;
+			}
+        }
+
+		if (popUpIndex == 8) {
+
+        }
 
 
 	}
