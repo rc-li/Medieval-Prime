@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class LevelSpawner : MonoBehaviour
 {
-    public GameObject hazardChunks;
+    public GameObject[] hazardChunks;
     public GameObject town;
+    [SerializeField]
     private float spawnXPosition = 10f;
     private int spawnCount = 0;
+    int randomInt;
     void Start()
     {
         InvokeRepeating("spawnChunk", 3.0f, 5f);
@@ -17,7 +19,8 @@ public class LevelSpawner : MonoBehaviour
     {
         if(spawnCount < 10)
         {
-            Instantiate(hazardChunks, transform.TransformPoint(new Vector3(35f, -2f, 0f)), Quaternion.identity);
+            randomInt = Random.Range(0,hazardChunks.Length);
+            Instantiate(hazardChunks[randomInt], transform.TransformPoint(new Vector3(35f, -2f, 0f)), Quaternion.identity);
             spawnCount++;
         }
         else
