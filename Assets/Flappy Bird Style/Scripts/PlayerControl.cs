@@ -25,6 +25,9 @@ public class PlayerControl : MonoBehaviour
 
 	public bool shrink = false;
 
+	public float originalSize;
+	public float shrinkSize;
+
 	private void Awake()
 	{
 		Physics2D.gravity = gravityModifier;
@@ -35,6 +38,8 @@ public class PlayerControl : MonoBehaviour
 		rb2d = GetComponent<Rigidbody2D>();
 		coll = GetComponent<Collider2D>();
 		renderer = GetComponent<SpriteRenderer>();
+		originalSize = renderer.transform.localScale.y;
+		shrinkSize = originalSize/2;
 
 	}
 
@@ -178,7 +183,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Shrink(){
 		Debug.Log("SHRINK: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y > 1.3)
+		if (renderer.transform.localScale.y > shrinkSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
 			renderer.color = new Color(153f,0f, 0f, 1f);
@@ -188,7 +193,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Recover(){
 		Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y < 2.61)
+		if (renderer.transform.localScale.y < originalSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
 		}
