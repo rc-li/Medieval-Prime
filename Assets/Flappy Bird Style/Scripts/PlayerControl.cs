@@ -20,13 +20,13 @@ public class PlayerControl : MonoBehaviour
 	private SpriteRenderer renderer;
 	public int bufferTime = 3;
 
-	public float dashScale = 0.06f;
-	public float recoverScale = 0.03f;
+	public float dashScale = 0.12f;
+	public float recoverScale = 0.06f;
 
-	public bool shrink = false;
+	private bool shrink = false;
 
-	public float originalSize;
-	public float shrinkSize;
+	private float originalSize;
+	private float shrinkSize;
 
 	private void Awake()
 	{
