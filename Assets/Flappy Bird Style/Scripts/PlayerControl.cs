@@ -71,7 +71,7 @@ public class PlayerControl : MonoBehaviour
 
 				if (touch.position.x < Screen.width/2)
 				{
-					if (touch.phase == TouchPhase.Began)
+					if (touch.phase == TouchPhase.Began && !grounded)
 					{
 						Dash();
 					} 
