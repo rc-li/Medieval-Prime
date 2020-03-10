@@ -116,6 +116,7 @@ public class PlayerControl : MonoBehaviour
 		// Dash down if character is jumping
 		if (!grounded)
 		{
+			GameControl.instance.DashSound();
 			rb2d.velocity = Vector2.zero;
 			rb2d.AddForce(new Vector2(0, -upForce * 1.5f), ForceMode2D.Impulse);
 			initJump = false;
@@ -187,7 +188,6 @@ public class PlayerControl : MonoBehaviour
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
 			renderer.color = new Color(153f,0f, 0f, 1f);
-			GameControl.instance.DashSound();
 		}
 	}
 
