@@ -7,7 +7,7 @@ public class RayController : MonoBehaviour
 {
 
 	public float moveSpeed;
-	public static float jumpForce;
+	public float jumpForce;
 
 	private Rigidbody2D myRigidBody;
 
@@ -34,9 +34,9 @@ public class RayController : MonoBehaviour
     {
 		grounded = Physics2D.IsTouchingLayers(myCollider, whatIsGround);
 
-        // myRigidBody.velocity = new Vector2(moveSpeed,myRigidBody.velocity.y);
+        //myRigidBody.velocity = new Vector2(moveSpeed, myRigidBody.velocity.y);
 
-		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) {
 			if (grounded){
 				myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
 				initJump = true;
