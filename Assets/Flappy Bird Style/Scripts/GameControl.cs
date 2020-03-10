@@ -82,7 +82,7 @@ public class GameControl : MonoBehaviour
 
 				}
 			} else {
-				Debug.Log(Time.unscaledDeltaTime.ToString());
+				//Debug.Log(Time.unscaledDeltaTime.ToString());
 				timeStart -= Time.unscaledDeltaTime;
 				counterText.text = Mathf.Round(timeStart).ToString();
 			}
