@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour {
 	public Rigidbody2D playerRigidBody;
 	public RayController playerController;
 	public bool wait;
+	public bool waitScene5;
 
 	void Awake() {
 		wait = false;
@@ -118,7 +119,7 @@ public class TutorialManager : MonoBehaviour {
 			if (waitTime <= 0) {
 				Time.timeScale = 0f;
 				popUpIndex++;
-				waitTime = 3f;
+				//waitTime = 3f;
 				wait = false;
             } else {
 				waitTime -= Time.deltaTime;
@@ -127,38 +128,44 @@ public class TutorialManager : MonoBehaviour {
 
 		// right before the dash down
 		if (popUpIndex == 5) {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+                Time.timeScale = 1f;
+				waitScene5 = true;
+				waitTime = 2;
+            }
+        }
+
+		if (waitScene5) {
 			if (waitTime <= 0) {
 				popUpIndex++;
-				Time.timeScale = 0f;
-				waitTime = 2f;
+				waitScene5 = false;
             } else {
 				waitTime -= Time.deltaTime;
-				print("inside page 5");
             }
-		}
-
-		if (popUpIndex == 6) {
-			if (waitTime <= 0) {
-				popUpIndex++;
-				Time.timeScale = 0f;
-			} else {
-				waitTime -= Time.deltaTime;
-				print("inside page 6");
-			}
-		}
-
-
-		if (popUpIndex == 7) {
-			print("inside page 7");
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
-				Time.timeScale = 1f;
-				popUpIndex++;
-			}
         }
 
-		if (popUpIndex == 8) {
-			print("inside page 8");
-        }
+		//if (popUpIndex == 6) {
+		//	if (waitTime <= 0) {
+		//		popUpIndex++;
+		//		Time.timeScale = 0f;
+		//	} else {
+		//		waitTime -= Time.deltaTime;
+		//		print("inside page 6");
+		//	}
+		//}
+
+
+		//if (popUpIndex == 7) {
+		//	print("inside page 7");
+		//	if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+		//		Time.timeScale = 1f;
+		//		popUpIndex++;
+		//	}
+		//      }
+
+		//if (popUpIndex == 8) {
+		//	print("inside page 8");
+		//      }
 
 		print("outside");
 
