@@ -69,7 +69,7 @@ public class PlayerControl : MonoBehaviour
 
 				// MOBILE CONTROLS
 				// Disable play control when upper left corner pressed (for pause button)
-				if (!(touch.position.x < 249 && touch.position.y > 524)){
+				if (!(touch.position.x < Screen.width/4 && touch.position.y > Screen.width/5)){
 					Debug.Log("TOUCH:" + touch.position.x.ToString() + " " + touch.position.y.ToString());
 					if (touch.position.x < Screen.width/2)
 					{
