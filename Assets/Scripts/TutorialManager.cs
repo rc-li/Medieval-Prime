@@ -13,8 +13,10 @@ public class TutorialManager : MonoBehaviour {
 	public int jumpForce;
 	public Rigidbody2D playerRigidBody;
 	public RayController playerController;
+	public bool wait;
 
 	void Awake() {
+		wait = false;
 		//playerRigidBody = GameObject.Find("player").GetComponent<Rigidbody2D>();
 		//playerRigidBody.velocity = new Vector2(runSpeed, playerRigidBody.velocity.y);
 		//playerController = GameObject.Find("player").GetComponent<RayController>();
@@ -103,19 +105,35 @@ public class TutorialManager : MonoBehaviour {
 				//playerRigidBody.velocity = new Vector2(runSpeed, jumpForce);
 				//playerRigidBody.gravityScale = gravityScale;
 				Time.timeScale = 1f;
-				waitTime = 3f;
-				popUpIndex++;
+				waitTime = 1.25f;
+				//popUpIndex++;
+
+				wait = true;
 				waitForUserInput = false;
 			}
 
 		}
 
+		if (wait) {
+			if (waitTime <= 0) {
+				Time.timeScale = 0f;
+				popUpIndex++;
+				waitTime = 3f;
+				wait = false;
+            } else {
+				waitTime -= Time.deltaTime;
+            }
+        }
+
+		// right before the dash down
 		if (popUpIndex == 5) {
 			if (waitTime <= 0) {
 				popUpIndex++;
+				Time.timeScale = 0f;
 				waitTime = 2f;
             } else {
 				waitTime -= Time.deltaTime;
+				print("inside page 5");
             }
 		}
 
@@ -125,11 +143,13 @@ public class TutorialManager : MonoBehaviour {
 				Time.timeScale = 0f;
 			} else {
 				waitTime -= Time.deltaTime;
+				print("inside page 6");
 			}
 		}
 
 
 		if (popUpIndex == 7) {
+			print("inside page 7");
 			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
 				Time.timeScale = 1f;
 				popUpIndex++;
@@ -137,9 +157,10 @@ public class TutorialManager : MonoBehaviour {
         }
 
 		if (popUpIndex == 8) {
-
+			print("inside page 8");
         }
 
+		print("outside");
 
 	}
 
