@@ -20,10 +20,13 @@ public class PlayerControl : MonoBehaviour
 	private SpriteRenderer renderer;
 	public int bufferTime = 3;
 
-	public float dashScale = 0.03f;
-	public float recoverScale = 0.06f;
+	public float dashScale = 0.06f;
+	public float recoverScale = 0.03f;
 
 	public bool shrink = false;
+
+	public float originalSize;
+	public float shrinkSize;
 
 	private void Awake()
 	{
@@ -35,11 +38,14 @@ public class PlayerControl : MonoBehaviour
 		rb2d = GetComponent<Rigidbody2D>();
 		coll = GetComponent<Collider2D>();
 		renderer = GetComponent<SpriteRenderer>();
+		originalSize = renderer.transform.localScale.y;
+		shrinkSize = originalSize/2;
 
 	}
 
 	void Update()
 	{
+		// Debug.Log("length: " + renderer.transform.localScale.y.ToString());
 		// Make sure player stands straight
 		//rb2d.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 		//Don't allow control if the bird has died.
@@ -177,7 +183,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Shrink(){
 		Debug.Log("SHRINK: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y > 0.5)
+		if (renderer.transform.localScale.y > shrinkSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
 			renderer.color = new Color(153f,0f, 0f, 1f);
@@ -187,7 +193,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Recover(){
 		Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y < 1.41) 
+		if (renderer.transform.localScale.y < originalSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
 		}
