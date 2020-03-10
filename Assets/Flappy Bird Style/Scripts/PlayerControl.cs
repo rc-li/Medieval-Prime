@@ -178,7 +178,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Shrink(){
 		Debug.Log("SHRINK: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y > 0.5)
+		if (renderer.transform.localScale.y > 1.3)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
 			renderer.color = new Color(153f,0f, 0f, 1f);
@@ -188,7 +188,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Recover(){
 		Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y < 1.41)
+		if (renderer.transform.localScale.y < 2.61)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
 		}
