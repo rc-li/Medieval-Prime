@@ -113,6 +113,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Dash()
 	{
+		GameControl.instance.DashSound();
 		// Dash down if character is jumping
 		if (!grounded)
 		{
@@ -126,18 +127,18 @@ public class PlayerControl : MonoBehaviour
 		// 	StartCoroutine(DashThrough());
 		// }
 	}
-	IEnumerator DashThrough()
-	{
-		Debug.Log("Started Dash");
-		isDashing = true;
-		renderer.color = new Color(153f,0f, 0f, 1f);
-		//yield on a new YieldInstruction that waits for 5 seconds.
-		yield return new WaitForSeconds(dashDuration);
+	// IEnumerator DashThrough()
+	// {
+	// 	Debug.Log("Started Dash");
+	// 	isDashing = true;
+	// 	renderer.color = new Color(153f,0f, 0f, 1f);
+	// 	//yield on a new YieldInstruction that waits for 5 seconds.
+	// 	yield return new WaitForSeconds(dashDuration);
 
-		Debug.Log("Waited Dash");
-		renderer.color = Color.white;
-		isDashing = false;
-	}
+	// 	Debug.Log("Waited Dash");
+	// 	renderer.color = Color.white;
+	// 	isDashing = false;
+	// }
 
 
 
@@ -187,7 +188,6 @@ public class PlayerControl : MonoBehaviour
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
 			renderer.color = new Color(153f,0f, 0f, 1f);
-			GameControl.instance.DashSound();
 		}
 	}
 

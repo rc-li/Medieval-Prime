@@ -34,6 +34,7 @@ public class GameControl : MonoBehaviour
     public AudioClip jumpFx;
     public AudioClip coinFx;
     public AudioClip dashFx;
+	public AudioClip shrinkFx;
 
 	void Awake()
 	{
@@ -174,5 +175,9 @@ public class GameControl : MonoBehaviour
 
 	public void DashSound(){
         myFx.PlayOneShot(dashFx);
+    }
+
+	public void ShrinkSound(){
+        myFx.PlayOneShot(shrinkFx);
     }
 }
