@@ -56,6 +56,9 @@ public class GameControl : MonoBehaviour
 		// PlayerPrefs.SetInt("TotalCoin", 0);
 
 		// Save total coin to disk
+		// PlayerPrefs.SetInt("TotalCoin", 0);
+		// PlayerPrefs.SetInt("TotalLife", 5);
+
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
 		lifeCounter = PlayerPrefs.GetInt("TotalLife", lifeCounter);
 	}
@@ -107,6 +110,7 @@ public class GameControl : MonoBehaviour
 
 	public void PlayerDied()
 	{
+		
 		newTown = false;
 		//Activate the game over text.
 		gameOvertext.SetActive (true);
@@ -131,7 +135,8 @@ public class GameControl : MonoBehaviour
 	}
 
 	public void continuePlay()
-	{
+	{	
+		timeStart = 10;
 		newTown = false;
 		isPlaying = true;
 		menuPanel.SetActive(false);

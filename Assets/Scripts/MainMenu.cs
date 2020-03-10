@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame ()
     {
-        // PlayerPrefs.DeleteKey("Tutorial");
+        PlayerPrefs.DeleteKey("Tutorial");
         Debug.Log("TUTORIAL:" + PlayerPrefs.HasKey("Tutorial").ToString());
         if(PlayerPrefs.GetInt("Tutorial", 0) == 0){
             PlayerPrefs.SetInt("Tutorial", 1);

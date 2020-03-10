@@ -39,7 +39,7 @@ public class StoreMenu : MonoBehaviour
 
     public void Upgrade()
     {
-        if (coins < 10) {
+        if (coins < 5) {
             Debug.Log("NOT ENOUGH COINS");
         } else {
             coins -= 5;
