@@ -35,7 +35,6 @@ public class TutorialManager : MonoBehaviour {
 		}
 
 
-
 		// the player walk towards the short obstacle
 		if (popUpIndex == 0) {
 

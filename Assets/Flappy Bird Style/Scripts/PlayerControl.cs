@@ -68,43 +68,46 @@ public class PlayerControl : MonoBehaviour
 				// if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && !isDashing)
 
 				// MOBILE CONTROLS
+				// Disable play control when upper left corner pressed (for pause button)
+				if (!(touch.position.x < Screen.width/4 && touch.position.y > Screen.width/5)){
+					Debug.Log("TOUCH:" + touch.position.x.ToString() + " " + touch.position.y.ToString());
+					if (touch.position.x < Screen.width/2)
+					{
+						if (touch.phase == TouchPhase.Began && !grounded)
+						{
+							Dash();
+						} 
+						else if (touch.phase == TouchPhase.Stationary)
+						{
+							if (grounded) 
+							{
+								shrink = true;
+								Shrink();
+							}
+						}
+						else if (touch.phase == TouchPhase.Ended)
+						{
+							shrink = false;
+						}
+					} else if (touch.position.x > Screen.width/2)
+					{
+						if (touch.phase == TouchPhase.Began)
+						{
+							if (grounded)
+							{
+								Jump();
+								Debug.Log("initj - jump: " + initJump.ToString());
 
-				if (touch.position.x < Screen.width/2)
-				{
-					if (touch.phase == TouchPhase.Began && !grounded)
-					{
-						Dash();
-					} 
-					else if (touch.phase == TouchPhase.Stationary)
-					{
-						if (grounded) 
-						{
-							shrink = true;
-							Shrink();
+							}
+							// Double Jump
+							else if (initJump)
+							{
+								DoubleJump();
+								Debug.Log("initj - djump: " + initJump.ToString());
+							}
 						}
+						
 					}
-					else if (touch.phase == TouchPhase.Ended)
-					{
-						shrink = false;
-					}
-				} else if (touch.position.x > Screen.width/2)
-				{
-					if (touch.phase == TouchPhase.Began)
-					{
-						if (grounded)
-						{
-							Jump();
-							Debug.Log("initj - jump: " + initJump.ToString());
-
-						}
-						// Double Jump
-						else if (initJump)
-						{
-							DoubleJump();
-							Debug.Log("initj - djump: " + initJump.ToString());
-						}
-					}
-					
 				}
 				++i;
 			}
