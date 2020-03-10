@@ -40,6 +40,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Update()
 	{
+		// Debug.Log("length: " + renderer.transform.localScale.y.ToString());
 		// Make sure player stands straight
 		//rb2d.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 		//Don't allow control if the bird has died.
@@ -187,7 +188,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Recover(){
 		Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
-		if (renderer.transform.localScale.y < 1.41) 
+		if (renderer.transform.localScale.y < 1.41)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
 		}
