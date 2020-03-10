@@ -15,7 +15,6 @@ public class PlayerControl : MonoBehaviour
 	private Collider2D coll;
 	private bool initJump = false;
 	public Vector2 gravityModifier;
-	public float dashDuration;
 	public Vector3 dashRotation;
 	private SpriteRenderer renderer;
 	public int bufferTime = 3;
@@ -130,18 +129,18 @@ public class PlayerControl : MonoBehaviour
 		// 	StartCoroutine(DashThrough());
 		// }
 	}
-	IEnumerator DashThrough()
-	{
-		Debug.Log("Started Dash");
-		isDashing = true;
-		renderer.color = new Color(153f,0f, 0f, 1f);
-		//yield on a new YieldInstruction that waits for 5 seconds.
-		yield return new WaitForSeconds(dashDuration);
+	// IEnumerator DashThrough()
+	// {
+	// 	Debug.Log("Started Dash");
+	// 	isDashing = true;
+	// 	renderer.color = new Color(153f,0f, 0f, 1f);
+	// 	//yield on a new YieldInstruction that waits for 5 seconds.
+	// 	yield return new WaitForSeconds(dashDuration);
 
-		Debug.Log("Waited Dash");
-		renderer.color = Color.white;
-		isDashing = false;
-	}
+	// 	Debug.Log("Waited Dash");
+	// 	renderer.color = Color.white;
+	// 	isDashing = false;
+	// }
 
 
 
@@ -153,6 +152,8 @@ public class PlayerControl : MonoBehaviour
 		(col.gameObject.tag == "highHazard" && initJump == true && grounded == false) ||
 		(col.gameObject.tag == "dashHazard" && isDashing == false))
 		{
+			Debug.Log("crash");
+			StartCoroutine(Hurt());
 			GameControl.instance.updateLifeCounter();
 
 			if(GameControl.instance.checkDead())
@@ -164,7 +165,7 @@ public class PlayerControl : MonoBehaviour
 				//anim.SetTrigger("Die");
 			} else 
 			{
-				//colliding buffer effect
+				//Special Effects
 			}
 		}
 	}
@@ -190,8 +191,8 @@ public class PlayerControl : MonoBehaviour
 		if (renderer.transform.localScale.y > shrinkSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
-			renderer.color = new Color(153f,0f, 0f, 1f);
 		}
+		renderer.color = new Color(255f, 255f, 0f, 1f);
 	}
 
 	void Recover(){
@@ -201,5 +202,14 @@ public class PlayerControl : MonoBehaviour
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
 		}
 		renderer.color = Color.white;
+	}
+
+	IEnumerator Hurt()
+	{
+		Debug.Log("HURT");
+		renderer.material.color = new Color(255f, 0f, 0f, 1f);
+		//yield on a new YieldInstruction that waits for 5 seconds.
+		yield return new WaitForSeconds(0.008f);
+		renderer.material.color = Color.white;
 	}
 }
