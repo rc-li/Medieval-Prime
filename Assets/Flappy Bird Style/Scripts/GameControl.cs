@@ -34,6 +34,8 @@ public class GameControl : MonoBehaviour
     public AudioClip jumpFx;
     public AudioClip coinFx;
     public AudioClip dashFx;
+    public AudioClip collisionFx;
+
 
 	void Awake()
 	{
@@ -175,4 +177,9 @@ public class GameControl : MonoBehaviour
 	public void DashSound(){
         myFx.PlayOneShot(dashFx);
     }
+
+	public void CollsionSound(){
+        myFx.PlayOneShot(collisionFx);
+    }
+
 }
