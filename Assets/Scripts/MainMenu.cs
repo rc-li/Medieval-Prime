@@ -7,7 +7,16 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame ()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Debug.Log("TUTORIAL:" + PlayerPrefs.GetInt("Tutorial", 0).ToString());
+        if(PlayerPrefs.GetInt("Tutorial", 0) == 0){
+            PlayerPrefs.SetInt("Tutorial", 1);
+            Debug.Log("TUTORIAL:" + "load tutorial");
+            SceneManager.LoadScene("Tutorial");
+        } else
+        {
+            Debug.Log("TUTORIAL:" + "skip tutorial");
+            SceneManager.LoadScene("Main");
+        }
     }
 
     public void QuitGame()
