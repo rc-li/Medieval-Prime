@@ -2,9 +2,14 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Analytics;
+using System.Collections.Generic;
+
 
 public class GameControl : MonoBehaviour 
 {
+	public static int townNumber = 0;
+
 	public static GameControl instance;			//A reference to our game control script so we can access it statically.
 	public Text coinText;
 	public Text TotalCoinText;
@@ -135,7 +140,8 @@ public class GameControl : MonoBehaviour
 	}
 
 	public void continuePlay()
-	{	
+	{
+		townNumber += 1;
 		timeStart = 10;
 		newTown = false;
 		isPlaying = true;
@@ -146,7 +152,8 @@ public class GameControl : MonoBehaviour
 	}
 
     public void quit()
-    {	
+    {
+		ReportTownQuit(townNumber);
 		newTown = false;
         totalCoin += coin;
         TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
@@ -160,6 +167,7 @@ public class GameControl : MonoBehaviour
 
 	public void updateLifeCounter(){
 		lifeCounter -= 1;
+		ReportTownDead(townNumber);
 		Debug.Log("LIFE: " + lifeCounter.ToString());
 	}
 
@@ -186,5 +194,25 @@ public class GameControl : MonoBehaviour
 	public void CollsionSound(){
         myFx.PlayOneShot(collisionFx);
     }
+
+    //decide which town people decide to quit
+	public void ReportTownQuit(int townNumber)
+	{
+		AnalyticsEvent.Custom("town_quit", new Dictionary<string, object>
+		{
+			{ "town_quit", townNumber }
+		});
+	}
+
+
+	//decide which town people decide to quit
+	public void ReportTownDead(int townNumber)
+	{
+		AnalyticsEvent.Custom("dead_num", new Dictionary<string, object>
+		{
+			{ "town_dead" ,townNumber}
+		});
+	}
+
 
 }
