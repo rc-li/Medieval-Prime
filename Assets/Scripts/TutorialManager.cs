@@ -18,176 +18,154 @@ public class TutorialManager : MonoBehaviour {
 	public bool waitScene5;
 	public bool finalWait;
 
-
-	private bool tutorialEnd = false;
+	private bool tutorialEnd;
+	private bool jumping;
+	private bool dashing;
 
 	void Awake() {
 		wait = false;
-		//playerRigidBody = GameObject.Find("player").GetComponent<Rigidbody2D>();
-		//playerRigidBody.velocity = new Vector2(runSpeed, playerRigidBody.velocity.y);
-		//playerController = GameObject.Find("player").GetComponent<RayController>();
-
+		tutorialEnd = false;
 	}
 
 	void Update() {
-		if (tutorialEnd)
+
+		if (Input.touchCount == 1) {
+			Touch touch = Input.GetTouch(0);
+			if (touch.position.x < Screen.width / 2) {
+				dashing = true;
+            } else {
+				jumping = true;
+            }
+
+        } else {
+			jumping = false;
+			dashing = false;
+        }
+
+
+
+        if (tutorialEnd)
 		{
 			SceneManager.LoadScene("Main");
 		} else 
 		{
-			for (int i = 0; i < popUps.Length; i++) {
-				if (i == popUpIndex) {
-					popUps[i].SetActive(true);
-				} else {
-					popUps[i].SetActive(false);
-				}
-			}
+			LoadTutorial();
+		}
 
+	}
 
-			// the player walk towards the short obstacle
-			if (popUpIndex == 0) {
-
-				if (waitTime <= 0) {
-					//playerRigidBody.velocity = new Vector2(0, 0);
-					//playerRigidBody.gravityScale = 0;
-					Time.timeScale = 0f;
-					popUpIndex++;
-				} else {
-					//playerRigidBody.velocity = new Vector2(runSpeed, playerRigidBody.velocity.y);
-					waitTime -= Time.deltaTime;
-				}
-
-			}
-
-
-			// the player click jump before the short obstacle
-			if (popUpIndex == 1) {
-				if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
-					//playerRigidBody.velocity = new Vector2(runSpeed, jumpForce);
-					//playerRigidBody.gravityScale = gravityScale;
-					waitTime = 3f;
-					Time.timeScale = 1f;
-					popUpIndex++;
-				}
-
-			}
-
-			// after the short obstacle
-			if (popUpIndex == 2) {
-				if (waitTime <= 0) {
-					//playerRigidBody.velocity = new Vector2(0, 0);
-					Time.timeScale = 0f;
-					popUpIndex++;
-				} else {
-					//playerRigidBody.velocity = new Vector2(runSpeed, playerRigidBody.velocity.y);
-					waitTime -= Time.deltaTime;
-				}
-			}
-
-			// before the higher obstacle
-			if (popUpIndex == 3) {
-				if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
-					//playerRigidBody.velocity = new Vector2(runSpeed, jumpForce);
-					//playerRigidBody.gravityScale = gravityScale;
-					Time.timeScale = 1f;
-					waitTime = 0.25f;
-					popUpIndex++;
-				}
-			}
-
-			// before the higher obstacle, in the air
-			bool waitForUserInput = false;
-			if (popUpIndex == 4) {
-				if (waitTime <= 0) {
-					//playerRigidBody.velocity = new Vector2(0, 0);
-					//playerRigidBody.gravityScale = 0;
-					Time.timeScale = 0f;
-					waitForUserInput = true;
-				} else {
-					//playerRigidBody.velocity = new Vector2(runSpeed, playerRigidBody.velocity.y);
-					waitTime -= Time.deltaTime;
-				}
-			}
-
-			if (waitForUserInput) {
-				if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
-					//playerRigidBody.velocity = new Vector2(runSpeed, jumpForce);
-					//playerRigidBody.gravityScale = gravityScale;
-					Time.timeScale = 1f;
-					waitTime = 1.25f;
-					//popUpIndex++;
-
-					wait = true;
-					waitForUserInput = false;
-				}
-
-			}
-
-			if (wait) {
-				if (waitTime <= 0) {
-					Time.timeScale = 0f;
-					popUpIndex++;
-					//waitTime = 3f;
-					wait = false;
-				} else {
-					waitTime -= Time.deltaTime;
-				}
-			}
-
-			// right before the dash down
-			if (popUpIndex == 5) {
-				if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
-					Time.timeScale = 1f;
-					waitScene5 = true;
-					waitTime = 2f;
-				}
-			}
-
-			if (waitScene5) {
-				if (waitTime <= 0) {
-					popUpIndex++;
-					waitScene5 = false;
-					finalWait = true;
-					waitTime = 3f;
-				} else {
-					waitTime -= Time.deltaTime;
-				}
-			}
-
-			if (finalWait) {
-				if (waitTime <= 0) {
-					popUpIndex++;
-					tutorialEnd = true;
-				} else {
-					waitTime -= Time.deltaTime;
-				}
+	private void LoadTutorial() {
+		for (int i = 0; i < popUps.Length; i++) {
+			if (i == popUpIndex) {
+				popUps[i].SetActive(true);
+			} else {
+				popUps[i].SetActive(false);
 			}
 		}
-		
-
-		//if (popUpIndex == 6) {
-		//	if (waitTime <= 0) {
-		//		popUpIndex++;
-		//		Time.timeScale = 0f;
-		//	} else {
-		//		waitTime -= Time.deltaTime;
-		//		print("inside page 6");
-		//	}
-		//}
 
 
-		//if (popUpIndex == 7) {
-		//	print("inside page 7");
-		//	if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
-		//		Time.timeScale = 1f;
-		//		popUpIndex++;
-		//	}
-		//      }
+		// the player walk towards the short obstacle
+		if (popUpIndex == 0) {
 
-		//if (popUpIndex == 8) {
-		//	print("inside page 8");
-		//      }
+			if (waitTime <= 0) {
+				Time.timeScale = 0f;
+				popUpIndex++;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
 
+		}
+
+
+		// the player click jump before the short obstacle
+		if (popUpIndex == 1) {
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+				waitTime = 3f;
+				Time.timeScale = 1f;
+				popUpIndex++;
+			}
+
+		}
+
+		// after the short obstacle
+		if (popUpIndex == 2) {
+			if (waitTime <= 0) {
+				Time.timeScale = 0f;
+				popUpIndex++;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
+		}
+
+		// before the higher obstacle
+		if (popUpIndex == 3) {
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+				Time.timeScale = 1f;
+				waitTime = 0.25f;
+				popUpIndex++;
+			}
+		}
+
+		// before the higher obstacle, in the air
+		bool waitForUserInput = false;
+		if (popUpIndex == 4) {
+			if (waitTime <= 0) {
+				Time.timeScale = 0f;
+				waitForUserInput = true;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
+		}
+
+		if (waitForUserInput) {
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+				Time.timeScale = 1f;
+				waitTime = 1.25f;
+
+				wait = true;
+				waitForUserInput = false;
+			}
+
+		}
+
+		if (wait) {
+			if (waitTime <= 0) {
+				Time.timeScale = 0f;
+				popUpIndex++;
+				wait = false;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
+		}
+
+		// right before the dash down
+		if (popUpIndex == 5) {
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+				Time.timeScale = 1f;
+				waitScene5 = true;
+				waitTime = 2f;
+			}
+		}
+
+		if (waitScene5) {
+			if (waitTime <= 0) {
+				popUpIndex++;
+				waitScene5 = false;
+				finalWait = true;
+				waitTime = 3f;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
+		}
+
+		if (finalWait) {
+			if (waitTime <= 0) {
+				popUpIndex++;
+				tutorialEnd = true;
+			} else {
+				waitTime -= Time.deltaTime;
+			}
+		}
 	}
 
 }
