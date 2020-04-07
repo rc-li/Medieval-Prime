@@ -64,8 +64,11 @@ public class TutorialManager : MonoBehaviour {
 		}
 
 
-		// the player walk towards the short obstacle
-		if (popUpIndex == 0) {
+        // the player walk towards the short obstacle
+		// This code block, at the begining of the tutorial, lets the player run 
+		// for some time before it display prompt1: "press the right side 
+		// of the screen to perform a jump
+        if (popUpIndex == 0) {
 
 			if (waitTime <= 0) {
 				Time.timeScale = 0f;
@@ -77,9 +80,11 @@ public class TutorialManager : MonoBehaviour {
 		}
 
 
-		// the player click jump before the short obstacle
+		// the player is currently standing in front of the short obstacle
+		// This code block, when getting the jumping signal, will turn the tutorial page
+		// and set time wait before the next user input
 		if (popUpIndex == 1) {
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+			if (jumping) {
 				waitTime = 3f;
 				Time.timeScale = 1f;
 				popUpIndex++;
@@ -87,7 +92,10 @@ public class TutorialManager : MonoBehaviour {
 
 		}
 
-		// after the short obstacle
+
+		// the player is running after jumping over the short obstacle
+		// This code block lets the player run for the time set by the 
+		// previous code block, and freeze time later
 		if (popUpIndex == 2) {
 			if (waitTime <= 0) {
 				Time.timeScale = 0f;
@@ -97,16 +105,21 @@ public class TutorialManager : MonoBehaviour {
 			}
 		}
 
-		// before the higher obstacle
+		////////////////////////// HIGHER OBSTACLE PART /////////////////////////////////
+
+		// the player is standing at the higher obstacle
+		// This code block will, upon getting jumping signal, turn the tutorial page
+		// and restore the time
 		if (popUpIndex == 3) {
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+			if (jumping) {
 				Time.timeScale = 1f;
 				waitTime = 0.25f;
 				popUpIndex++;
 			}
 		}
 
-		// before the higher obstacle, in the air
+		// the player did the first jump and is now in the air
+		// This code block will wait for a while then freeze the time
 		bool waitForUserInput = false;
 		if (popUpIndex == 4) {
 			if (waitTime <= 0) {
@@ -117,8 +130,11 @@ public class TutorialManager : MonoBehaviour {
 			}
 		}
 
+
+		// the player is frozen in the air, awaiting the double jump signal
+		// This code block, upon getting jumping signal, will restore the time
 		if (waitForUserInput) {
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+			if (jumping) {
 				Time.timeScale = 1f;
 				waitTime = 1.25f;
 
@@ -128,6 +144,8 @@ public class TutorialManager : MonoBehaviour {
 
 		}
 
+		// the player just finished double jumping and is doing the dash down soon
+		// This code block will freeze the time for the dash down
 		if (wait) {
 			if (waitTime <= 0) {
 				Time.timeScale = 0f;
@@ -138,9 +156,11 @@ public class TutorialManager : MonoBehaviour {
 			}
 		}
 
-		// right before the dash down
+		// the player is awaiting "dash down" user input
+		// This code block will, upon getting "dash down" signal, restore time and 
+		// set wait time for the next block
 		if (popUpIndex == 5) {
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+			if (dashing) {
 				Time.timeScale = 1f;
 				waitScene5 = true;
 				waitTime = 2f;
