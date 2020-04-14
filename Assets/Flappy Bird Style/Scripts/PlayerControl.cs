@@ -47,7 +47,6 @@ public class PlayerControl : MonoBehaviour
 		// Debug.Log("length: " + renderer.transform.localScale.y.ToString());
 		// Make sure player stands straight
 		//rb2d.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
-		//Don't allow control if the bird has died.
 		if (isDead == false && GameControl.instance.isPlaying)
 		{
 			grounded = Physics2D.IsTouchingLayers(coll, whatIsGround);
@@ -149,7 +148,7 @@ public class PlayerControl : MonoBehaviour
 		Debug.Log("Trigger");
 
 		if((col.gameObject.tag == "lowHazard" && grounded == true) || 
-		(col.gameObject.tag == "highHazard" && initJump == true && grounded == false) ||
+		(col.gameObject.tag == "highHazard" && ((grounded == true) || (initJump == true))) ||
 		(col.gameObject.tag == "dashHazard" && isDashing == false))
 		{
 			Debug.Log("crash");
