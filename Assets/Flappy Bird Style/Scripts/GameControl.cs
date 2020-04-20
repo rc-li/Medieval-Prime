@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public class GameControl : MonoBehaviour 
 {
-	public static int townNumber = 0;
+	public static int townNumber = 1;
 
 	public static GameControl instance;			//A reference to our game control script so we can access it statically.
 	public Text coinText;
@@ -141,6 +141,7 @@ public class GameControl : MonoBehaviour
 
 	public void continuePlay()
 	{
+		ReportTownSurvive(townNumber);
 		townNumber += 1;
 		timeStart = 10;
 		newTown = false;
@@ -213,6 +214,16 @@ public class GameControl : MonoBehaviour
 			{ "town_dead" ,townNumber}
 		});
 	}
+
+	//decide town survive number
+	public void ReportTownSurvive(int townNumber)
+	{
+		AnalyticsEvent.Custom("town_survive", new Dictionary<string, object>
+		{
+			{ "town_survive" ,townNumber}
+		});
+	}
+
 
 
 }
