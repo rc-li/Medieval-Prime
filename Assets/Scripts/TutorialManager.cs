@@ -14,7 +14,9 @@ public class TutorialManager : MonoBehaviour {
 	public int jumpForce;
 	public Rigidbody2D playerRigidBody;
 	public RayController playerController;
-	public GameObject tutorialPlayerControl;
+	public TutorialPlayerControl tutorialPlayerControl;
+
+	public bool waitIndex1;
 	public bool wait;
 	public bool waitScene5;
 	public bool finalWait;
@@ -26,7 +28,7 @@ public class TutorialManager : MonoBehaviour {
 
 	void Start() {
 		GameObject player = GameObject.Find("Player (1)");
-		tutorialPlayerControl = GameObject.Find("TutorialPlayerControl");
+		tutorialPlayerControl = player.GetComponent<TutorialPlayerControl>();
 		playerRigidBody = player.GetComponent<Rigidbody2D>();
 	}
 
@@ -80,9 +82,11 @@ public class TutorialManager : MonoBehaviour {
 
 			if (waitTime <= 0) {
 				Time.timeScale = 0f;
-				popUpIndex++;
+                tutorialPlayerControl.enabled = true;
+                popUpIndex++;
 			} else {
-				waitTime -= Time.deltaTime;
+                tutorialPlayerControl.enabled = false; // disabling tutorial at the first several seconds 
+                waitTime -= Time.deltaTime;
 			}
 
 		}
@@ -93,12 +97,23 @@ public class TutorialManager : MonoBehaviour {
 		// and set time wait before the next user input
 		if (popUpIndex == 1) {
 			if (jumping) {
-				waitTime = 3f;
 				Time.timeScale = 1f;
+				waitTime = 0.05f;
 				popUpIndex++;
+				waitIndex1 = true;
 			}
-
 		}
+		if (waitIndex1) {
+			if (waitTime < 0) {
+				tutorialPlayerControl.enabled = false;
+				waitTime = 3f;
+				waitIndex1 = false;
+            } else {
+				waitTime -= Time.deltaTime;
+            }
+
+        }
+
 
 
 		// the player is running after jumping over the short obstacle
@@ -106,6 +121,7 @@ public class TutorialManager : MonoBehaviour {
 		// previous code block, and freeze time later
 		if (popUpIndex == 2) {
 			if (waitTime <= 0) {
+				tutorialPlayerControl.enabled = true;
 				Time.timeScale = 0f;
 				popUpIndex++;
 			} else {
