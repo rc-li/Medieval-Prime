@@ -21,7 +21,6 @@ public class StoreMenu : MonoBehaviour
 
         coinText.text = coins.ToString();
         lifeText.text = life.ToString();
-
     }
 
     void ChangeImage()

@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame ()
     {
         // PlayerPrefs.DeleteKey("Tutorial");
+
         Debug.Log("TUTORIAL:" + PlayerPrefs.HasKey("Tutorial").ToString());
         if(PlayerPrefs.GetInt("Tutorial", 0) == 0){
             PlayerPrefs.SetInt("Tutorial", 1);
@@ -24,14 +25,18 @@ public class MainMenu : MonoBehaviour
     }
 
     void Start(){
+        // PlayerPrefs.SetInt("TotalCoin", 90000);
+        // PlayerPrefs.SetInt("Town", 1);
+        // PlayerPrefs.SetInt("TotalLife", 5);
+        // PlayerPrefs.Save();
+
         if (PlayerPrefs.GetInt("Town", 0) == 0){
             PlayerPrefs.SetInt("Town", 1);
         }
         showTown();
     }
 
-    void showTown(){
-        Debug.Log("town");
+    public void showTown(){
         Sprite house1 = Resources.Load<Sprite>("Buildings/house_25");
         Sprite house2 = Resources.Load<Sprite>("Buildings/house_26");
         Sprite house3 = Resources.Load<Sprite>("Buildings/house_27");

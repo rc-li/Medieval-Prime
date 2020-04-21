@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class TownMenu : MonoBehaviour
 {
@@ -13,14 +14,24 @@ public class TownMenu : MonoBehaviour
     public int townLevel;
     public Text levelText;
 
+    public int percent;
+    public Text percentText;
+
+    public int cost;
+    public Text costText;
+
     // Start is called before the first frame update
     void Start()
     {   
         coins = PlayerPrefs.GetInt("TotalCoin", 0);
         townLevel = PlayerPrefs.GetInt("Town", 0);
+        percent = 10 * townLevel;
+        cost = 10 * (int)Math.Pow(10, townLevel);
 
         coinText.text = coins.ToString();
         levelText.text = townLevel.ToString();
+        percentText.text = percent.ToString();
+        costText.text = (0-cost).ToString();
 
         showTown();
     }
@@ -32,16 +43,20 @@ public class TownMenu : MonoBehaviour
 
     public void Upgrade()
     {
-        if (coins < townLevel * 100) {
+        if (coins < cost) {
             Debug.Log("NOT ENOUGH COINS");
         } else {
-            coins -= townLevel * 100;
+            coins -= cost;
             townLevel += 1;
+            percent = 10 * townLevel;
+            cost = 10 * (int)Math.Pow(10, townLevel);
             PlayerPrefs.SetInt("TotalCoin", coins);
             PlayerPrefs.SetInt("Town", townLevel);
             PlayerPrefs.Save();
             coinText.text = coins.ToString();
             levelText.text = townLevel.ToString();
+            percentText.text = percent.ToString();
+            costText.text = (0-cost).ToString();
 
             showTown();
         }

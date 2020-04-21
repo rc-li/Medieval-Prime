@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Analytics;
 using System.Collections.Generic;
+using System;
 
 
 public class GameControl : MonoBehaviour 
@@ -15,7 +16,7 @@ public class GameControl : MonoBehaviour
 	public Text TotalCoinText;
 	public Text heartText;
 	public Text CoinMultiplierText;	//A reference to the UI text component that displays the player's score.
-	public GameObject gameOvertext;				//A reference to the object that displays the text which appears when the player dies.
+	public GameObject gameOverPanel;				//A reference to the object that displays the text which appears when the player dies.
 
 	private int coin = 0;
 	private int coinMultiplier = 2;
@@ -41,6 +42,15 @@ public class GameControl : MonoBehaviour
     public AudioClip dashFx;
     public AudioClip collisionFx;
 
+	public int townLevel;
+
+	public Text gameOverCoinText;
+
+
+	void Start()
+	{
+		lifeCounter = PlayerPrefs.GetInt("TotalLife", lifeCounter);
+	}
 
 	void Awake()
 	{
@@ -65,18 +75,17 @@ public class GameControl : MonoBehaviour
 		// PlayerPrefs.SetInt("TotalLife", 5);
 
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
-		lifeCounter = PlayerPrefs.GetInt("TotalLife", lifeCounter);
 	}
 
 	void Update()
 	{	
 		//If the game is over and the player has pressed some input...
 		// && Input.GetMouseButtonDown(0)
-		if (gameOver && Input.GetMouseButtonDown(0)) 
-		{
-			//...reload the current scene.
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-		}
+		// if (gameOver && Input.GetMouseButtonDown(0)) 
+		// {
+		// 	//To Main Menu.
+		// 	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		// }
 		totalCoin = PlayerPrefs.GetInt("TotalCoin", totalCoin);
 		TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
 		heartText.text = lifeCounter.ToString();
@@ -84,7 +93,7 @@ public class GameControl : MonoBehaviour
 		if (newTown == true) 
 		{
 			if (Mathf.Round(timeStart) == 0) {
-				int choice = Random.Range(1,3);
+				int choice = UnityEngine.Random.Range(1,3);
 				if (choice == 1){
 					quit();
 
@@ -114,11 +123,24 @@ public class GameControl : MonoBehaviour
 
 
 	public void PlayerDied()
-	{
+	{	
+		townLevel = PlayerPrefs.GetInt("Town", 0);
+
+		Debug.Log("coins_before: " + coin.ToString());
+
+		coin = (int)Math.Round(coin * townLevel * 0.1);
+
+		Debug.Log("coins_after: " + coin.ToString());
+
+		totalCoin += coin;
+        TotalCoinText.text = "TotalCoins: " + totalCoin.ToString();
+        PlayerPrefs.SetInt("TotalCoin", totalCoin);
+        PlayerPrefs.Save();
 		
 		newTown = false;
 		//Activate the game over text.
-		gameOvertext.SetActive (true);
+		gameOverPanel.SetActive (true);
+		gameOverCoinText.text = "You gained " + coin.ToString() + " coins";
 		//Set the game to be over.
 		gameOver = true;
 	}
@@ -152,6 +174,12 @@ public class GameControl : MonoBehaviour
 		CoinMultiplierText.text = "Coin Multiplier: " + coinMultiplier.ToString();
 	}
 
+	public void playAgain()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		gameOverPanel.SetActive(false);
+	}
+
     public void quit()
     {
 		ReportTownQuit(townNumber);
@@ -165,6 +193,11 @@ public class GameControl : MonoBehaviour
 		SceneManager.LoadScene("Lucy");
         Time.timeScale = 1f;
     }
+
+	public void toMenu()
+	{
+		SceneManager.LoadScene("Lucy");
+	}
 
 	public void updateLifeCounter(){
 		lifeCounter -= 1;
