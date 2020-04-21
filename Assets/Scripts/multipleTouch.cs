@@ -14,10 +14,10 @@ public class multipleTouch : MonoBehaviour
         while (i < Input.touchCount) {
             Touch t = Input.GetTouch(i);
             if (t.phase == TouchPhase.Began){
-                Debug.Log("TOUCH: began");
+                //Debug.Log("TOUCH: began");
                 touches.Add(new touchLocation(t.fingerId, createCircle(t)));
             } else if (t.phase == TouchPhase.Ended){
-                Debug.Log("TOUCH: ended");
+                //Debug.Log("TOUCH: ended");
                 touchLocation thisTouch = touches.Find(touchLocation => touchLocation.touchId == t.fingerId);
                 Destroy(thisTouch.circle);
                 touches.RemoveAt(touches.IndexOf(thisTouch));

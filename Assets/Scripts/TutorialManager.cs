@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour {
 	public int jumpForce;
 	public Rigidbody2D playerRigidBody;
 	public RayController playerController;
+	public GameObject tutorialPlayerControl;
 	public bool wait;
 	public bool waitScene5;
 	public bool finalWait;
@@ -21,6 +22,13 @@ public class TutorialManager : MonoBehaviour {
 	private bool tutorialEnd;
 	private bool jumping;
 	private bool dashing;
+
+
+	void Start() {
+		GameObject player = GameObject.Find("Player (1)");
+		tutorialPlayerControl = GameObject.Find("TutorialPlayerControl");
+		playerRigidBody = player.GetComponent<Rigidbody2D>();
+	}
 
 	void Awake() {
 		wait = false;
@@ -136,8 +144,11 @@ public class TutorialManager : MonoBehaviour {
 		if (waitForUserInput) {
 			if (jumping) {
 				Time.timeScale = 1f;
-				waitTime = 1.25f;
-
+                //tutorialPlayerControl.DoubleJump();
+                playerRigidBody.velocity = Vector2.zero;
+                playerRigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                Debug.Log("force added from tutorial manager: " + jumpForce);
+                waitTime = 1.25f;
 				wait = true;
 				waitForUserInput = false;
 			}

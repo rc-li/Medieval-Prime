@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
-public class PlayerControl : MonoBehaviour
+public class TutorialPlayerControl : MonoBehaviour
 {
 	public static PlayerControl instance;
 	public float upForce;
@@ -95,14 +94,14 @@ public class PlayerControl : MonoBehaviour
 							if (grounded)
 							{
 								Jump();
-								Debug.Log("initj - jump: " + initJump.ToString());
+								//Debug.Log("initj - jump: " + initJump.ToString());
 
 							}
 							// Double Jump
 							else if (initJump)
 							{
 								DoubleJump();
-								Debug.Log("initj - djump: " + initJump.ToString());
+								//Debug.Log("initj - djump: " + initJump.ToString());
 							}
 						}
 						
@@ -120,7 +119,9 @@ public class PlayerControl : MonoBehaviour
 		{
 			GameControl.instance.DashSound();
 			rb2d.velocity = Vector2.zero;
-			rb2d.AddForce(new Vector2(0, -upForce * 1.5f), ForceMode2D.Impulse);
+			//if (Time.timeScale != 0) {
+				rb2d.AddForce(new Vector2(0, -upForce * 1.5f), ForceMode2D.Impulse);
+            //}
 			initJump = false;
 		}
 		// Slide if character is on the ground
@@ -145,15 +146,14 @@ public class PlayerControl : MonoBehaviour
 
 
 	void OnTriggerEnter2D(Collider2D col)
-	{
-		//Debug.Log("StackTrace: '{0}'" + Environment.StackTrace.ToString());
-		//Debug.Log("TRIGGER");
+	{	
+		//Debug.Log("Trigger");
 
-		if ((col.gameObject.tag == "lowHazard" && grounded == true) || 
+		if((col.gameObject.tag == "lowHazard" && grounded == true) || 
 		(col.gameObject.tag == "highHazard" && ((grounded == true) || (initJump == true))) ||
 		(col.gameObject.tag == "dashHazard" && isDashing == false))
 		{
-			Debug.Log("crash");
+			//Debug.Log("crash");
 			StartCoroutine(Hurt());
 			GameControl.instance.updateLifeCounter();
 
@@ -172,6 +172,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void Jump(){
+		Debug.Log("Jumping with force: " + upForce);
 		initJump = true;
 		rb2d.velocity = Vector2.zero;
 		rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
@@ -179,7 +180,7 @@ public class PlayerControl : MonoBehaviour
 		GameControl.instance.JumpSound();
 	}
 
-	void DoubleJump(){
+	public void DoubleJump(){
 		initJump = false;
 		rb2d.velocity = Vector2.zero;
 		rb2d.AddForce(new Vector2(0, upForce), ForceMode2D.Impulse);
@@ -188,7 +189,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void Shrink(){
-		Debug.Log("SHRINK: " + renderer.transform.localScale.y.ToString());
+		//Debug.Log("SHRINK: " + renderer.transform.localScale.y.ToString());
 		if (renderer.transform.localScale.y > shrinkSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y - dashScale);
@@ -197,7 +198,7 @@ public class PlayerControl : MonoBehaviour
 	}
 
 	void Recover(){
-		Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
+		//Debug.Log("RECOVER: " + renderer.transform.localScale.y.ToString());
 		if (renderer.transform.localScale.y < originalSize)
 		{	
 			renderer.transform.localScale = new Vector2(renderer.transform.localScale.x, renderer.transform.localScale.y + recoverScale);
@@ -207,7 +208,7 @@ public class PlayerControl : MonoBehaviour
 
 	IEnumerator Hurt()
 	{
-		Debug.Log("HURT");
+		//Debug.Log("HURT");
 		renderer.material.color = new Color(255f, 0f, 0f, 1f);
 		//yield on a new YieldInstruction that waits for 5 seconds.
 		yield return new WaitForSeconds(0.008f);
