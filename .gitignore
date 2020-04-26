@@ -10,8 +10,8 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
-# by Ray: need to ignore .meta file, it keeps adding non-relevant changes to git, annoying
-/[Aa]ssets/**/*.meta
+# Never ignore Asset meta data
+!/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -58,4 +58,3 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-*.meta
