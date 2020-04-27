@@ -43,22 +43,20 @@ public class TutorialManager : MonoBehaviour {
 			Touch touch = Input.GetTouch(0);
 			if (touch.position.x < Screen.width / 2) {
 				dashing = true;
-            } else {
+			} else {
 				jumping = true;
-            }
+			}
 
-        } else {
+		} else {
 			jumping = false;
 			dashing = false;
-        }
+		}
 
 
 
-        if (tutorialEnd)
-		{
+		if (tutorialEnd) {
 			SceneManager.LoadScene("Main");
-		} else 
-		{
+		} else {
 			LoadTutorial();
 		}
 
@@ -74,19 +72,19 @@ public class TutorialManager : MonoBehaviour {
 		}
 
 
-        // the player walk towards the short obstacle
+		// the player walk towards the short obstacle
 		// This code block, at the begining of the tutorial, lets the player run 
 		// for some time before it display prompt1: "press the right side 
 		// of the screen to perform a jump
-        if (popUpIndex == 0) {
+		if (popUpIndex == 0) {
 
 			if (waitTime <= 0) {
 				Time.timeScale = 0f;
-                tutorialPlayerControl.enabled = true;
-                popUpIndex++;
+				tutorialPlayerControl.enabled = true;
+				popUpIndex++;
 			} else {
-                tutorialPlayerControl.enabled = false; // disabling tutorial at the first several seconds 
-                waitTime -= Time.deltaTime;
+				tutorialPlayerControl.enabled = false; // disabling tutorial at the first several seconds 
+				waitTime -= Time.deltaTime;
 			}
 
 		}
@@ -108,11 +106,11 @@ public class TutorialManager : MonoBehaviour {
 				tutorialPlayerControl.enabled = false;
 				waitTime = 3f;
 				waitIndex1 = false;
-            } else {
+			} else {
 				waitTime -= Time.deltaTime;
-            }
+			}
 
-        }
+		}
 
 
 
@@ -160,11 +158,11 @@ public class TutorialManager : MonoBehaviour {
 		if (waitForUserInput) {
 			if (jumping) {
 				Time.timeScale = 1f;
-                //tutorialPlayerControl.DoubleJump();
-                playerRigidBody.velocity = Vector2.zero;
-                playerRigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-                Debug.Log("force added from tutorial manager: " + jumpForce);
-                waitTime = 1.25f;
+				//tutorialPlayerControl.DoubleJump();
+				playerRigidBody.velocity = Vector2.zero;
+				playerRigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+				Debug.Log("force added from tutorial manager: " + jumpForce);
+				waitTime = 1.25f;
 				wait = true;
 				waitForUserInput = false;
 			}
