@@ -31,7 +31,7 @@ public class TownMenu : MonoBehaviour
         coinText.text = coins.ToString();
         levelText.text = townLevel.ToString();
         percentText.text = percent.ToString();
-        costText.text = (0-cost).ToString();
+        costText.text = cost.ToString();
 
         showTown();
     }
@@ -56,7 +56,7 @@ public class TownMenu : MonoBehaviour
             coinText.text = coins.ToString();
             levelText.text = townLevel.ToString();
             percentText.text = percent.ToString();
-            costText.text = (0-cost).ToString();
+            costText.text = cost.ToString();
 
             showTown();
         }
