@@ -27,8 +27,8 @@ public class MainMenu : MonoBehaviour
     void Start(){
         // PlayerPrefs.SetInt("TotalCoin", 90000);
         // PlayerPrefs.SetInt("Town", 1);
-         PlayerPrefs.SetInt("TotalLife", 50);
-         PlayerPrefs.Save();
+        //PlayerPrefs.SetInt("TotalLife", 50);
+        //PlayerPrefs.Save();
 
         if (PlayerPrefs.GetInt("Town", 0) == 0){
             PlayerPrefs.SetInt("Town", 1);

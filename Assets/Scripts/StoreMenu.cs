@@ -38,10 +38,10 @@ public class StoreMenu : MonoBehaviour
 
     public void Upgrade()
     {
-        if (coins < 5) {
+        if (coins < 500) {
             Debug.Log("NOT ENOUGH COINS");
         } else {
-            coins -= 5;
+            coins -= 500;
             PlayerPrefs.SetInt("TotalCoin", coins);
             PlayerPrefs.Save();
             coinText.text = coins.ToString();
