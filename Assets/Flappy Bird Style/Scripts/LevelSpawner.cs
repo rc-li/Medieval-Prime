@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class LevelSpawner : MonoBehaviour
 {
-    public GameObject[] hazardChunks;
-    public Sprite[] spriteList;
-    public GameObject town;
-    SpriteRenderer townSprite;
+    [SerializeField]
+    private GameObject[] hazardChunks;
+    [SerializeField]
+    private Sprite[] spriteList;
+    [SerializeField]
+    private GameObject town;
+    private Sprite randomTownSprite;
     [SerializeField]
     private int spawnCount = 0;
     int randomInt;
     void Start()
     {
-        InvokeRepeating("spawnChunk", 3.0f, 5f);
-        townSprite = town.GetComponent<SpriteRenderer>();
+        InvokeRepeating("SpawnChunk", 3.0f, 5f);
     }
 
-    void spawnChunk()
+    void SpawnChunk()
     {
-        if(spawnCount < 10)
+        if(spawnCount < 2)
         {
             randomInt = Random.Range(0,hazardChunks.Length);
             Instantiate(hazardChunks[randomInt], transform.TransformPoint(new Vector3(35f, -2f, 0f)), Quaternion.identity);
@@ -28,9 +30,11 @@ public class LevelSpawner : MonoBehaviour
         else
         {
             // Move town to new position
-            town.transform.position = new Vector3(35f, -2f, 0f);
+            town.transform.position = new Vector3(40f, 0f, 0f);
             // Change sprite of town here
-            townSprite.sprite = spriteList[Random.Range(0, spriteList.Length)];
+            randomTownSprite = spriteList[Random.Range(0, spriteList.Length)];
+            town.GetComponent<SpriteRenderer>().sprite = randomTownSprite;
+            town.GetComponent<SpriteRenderer>().sortingLayerName = "Midground";
             spawnCount = 0;
         }
         
