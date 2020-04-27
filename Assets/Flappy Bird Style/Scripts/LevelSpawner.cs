@@ -21,7 +21,7 @@ public class LevelSpawner : MonoBehaviour
 
     void SpawnChunk()
     {
-        if(spawnCount < 2)
+        if(spawnCount < 10)
         {
             randomInt = Random.Range(0,hazardChunks.Length);
             Instantiate(hazardChunks[randomInt], transform.TransformPoint(new Vector3(35f, -2f, 0f)), Quaternion.identity);
