@@ -7,7 +7,7 @@ English Readme:
  Run through Medieval times and win exponentially increased award!
 
 Watch the trailer on YouTube:
-[![Watch the video](https://img.youtube.com/vi/6STOUhQMib4/maxresdefault.jpg)](https://www.youtube.com/watch?v=6STOUhQMib4&feature=youtu.be)
+[![Watch the video](https://img.youtube.com/vi/UHqG2Y0m86E/maxresdefault.jpg)](https://youtu.be/UHqG2Y0m86E)
 
 
 
